@@ -1,0 +1,20 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  darkMode: "class", // ✅ enable class-based dark mode
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}", // ✅ covers React components
+  ],
+  theme: {
+    extend: {
+      colors: {
+        gold: {
+          400: "#FFD700",
+          500: "#FFC107",
+          600: "#FFB300",
+        },
+      },
+    },
+  },
+  plugins: [],
+};

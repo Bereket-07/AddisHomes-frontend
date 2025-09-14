@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #1A365D; /* Navy */
+  --accent: #D4AF37; /* Gold */
+  --secondary: #4C1D95; /* Indigo variant */
+}
+
+.dark {
+  --primary: #1F2937;
+  --accent: #D4AF37;
+  --secondary: #312E81;
+}
+
+/* Additional global styles for better UI appeal */
+body {
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+a {
+  transition: color 0.2s;
+}
+
+button {
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Custom utilities if needed */
+@layer utilities {
+  .text-gold {
+    color: var(--accent);
+  }
+  .bg-gold {
+    background-color: var(--accent);
+  }
+  .text-navy {
+    color: var(--primary);
+  }
+  .bg-navy {
+    background-color: var(--primary);
+  }
+}
