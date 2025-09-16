@@ -1,6 +1,6 @@
 // src/pages/Login.jsx
 import { useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
 function Login() {
@@ -20,19 +20,59 @@ function Login() {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block mb-1">Phone Number</label>
-          <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} className="w-full border p-2 rounded" required />
+    <div className="max-w-md mx-auto bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg mt-10">
+      <h2 className="text-3xl font-bold mb-6 text-center text-blue-900 dark:text-gold-400">
+        Login
+      </h2>
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Phone */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Phone Number
+          </label>
+          <input
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
         </div>
-        <div className="mb-4">
-          <label className="block mb-1">Password</label>
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full border p-2 rounded" required />
+
+        {/* Password */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
         </div>
-        <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">Login</button>
+
+        {/* Submit */}
+        <button
+          type="submit"
+          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 rounded-lg shadow hover:from-blue-700 hover:to-blue-800 transition"
+        >
+          Login
+        </button>
       </form>
+
+      {/* Footer links */}
+      <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+        Don’t have an account?{' '}
+        <Link
+          to="/signup"
+          className="font-semibold text-blue-600 dark:text-gold-400 hover:underline"
+        >
+          Signup
+        </Link>
+      </p>
     </div>
   )
 }

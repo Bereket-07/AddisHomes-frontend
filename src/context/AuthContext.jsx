@@ -11,26 +11,42 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-      api.get('/auth/me').then(res => {
-        setUser(res.data)
-      }).catch(() => {
-        localStorage.removeItem('token')
-      }).finally(() => setLoading(false))
+      api
+        .get('/auth/me', {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(res => {
+          setUser(res.data)
+        })
+        .catch(() => {
+          localStorage.removeItem('token')
+        })
+        .finally(() => setLoading(false))
     } else {
       setLoading(false)
     }
   }, [])
 
   const login = async (phone, password) => {
-    const res = await api.post('/auth/login', { username: phone, password })
-    localStorage.setItem('token', res.data.access_token)
-    const userRes = await api.get('/auth/me')
-    setUser(userRes.data)
+  const res = await api.post('/auth/login', {
+    phone_number: phone,
+    password: password
+  })
+
+  const token = res.data.access_token
+  localStorage.setItem('token', token)
+
+  const userRes = await api.get('/auth/me', {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  setUser(userRes.data)
   }
+
 
   const signup = async (data) => {
     await api.post('/auth/signup', data)
-    // Auto-login after signup if desired
+    // Optional: login immediately after signup
+    // await login(data.phone_number, data.password)
   }
 
   const logout = () => {

@@ -5,16 +5,22 @@
 @tailwind utilities;
 
 :root {
-  --primary: #1A365D; /* Navy */
-  --accent: #D4AF37; /* Gold */
-  --secondary: #4C1D95; /* Indigo variant */
+  --primary: #ffffff;   /* Pure white for backgrounds */
+  --accent: #D4AF37;    /* Gold stays, for elegance */
+  --secondary: #4C1D95; /* Indigo, for buttons and highlights */
+  --text: #1A1A1A;      /* Dark gray for readable text */
+  --muted: #f8f9fa;     /* Very soft off-white for sections */
 }
 
 .dark {
-  --primary: #1F2937;
-  --accent: #D4AF37;
-  --secondary: #312E81;
+  --primary: #1F2937;   /* Dark gray */
+  --accent: #D4AF37;    /* Gold stays */
+  --secondary: #312E81; /* Dark indigo */
+  --text: #f3f4f6;      /* Almost white */
+  --muted: #111827;     /* Dark muted background */
 }
+
+
 
 /* Additional global styles for better UI appeal */
 body {

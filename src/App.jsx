@@ -1,7 +1,6 @@
 // src/App.jsx (Updated for Dark Mode)
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
-import { ThemeProvider } from './context/ThemeContext'  // New
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -15,7 +14,6 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <ThemeProvider>
       <AuthProvider>
         <Router>
           <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
@@ -47,7 +45,6 @@ function App() {
           </div>
         </Router>
       </AuthProvider>
-    </ThemeProvider>
   )
 }
 

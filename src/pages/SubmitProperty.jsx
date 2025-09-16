@@ -1,4 +1,4 @@
-// src/pages/SubmitProperty.jsx (Updated with File Upload)
+// src/pages/SubmitProperty.jsx
 import { useState } from 'react'
 import api from '../api'
 import { useNavigate } from 'react-router-dom'
@@ -12,13 +12,11 @@ function SubmitProperty() {
     size_sqm: 0,
     price_etb: 0,
     description: '',
-    image_urls: [],
-    // Add other fields as per PropertyCreate model, e.g.
     furnishing_status: '',
     condominium_scheme: '',
-    // etc.
+    image_urls: [],
   })
-  const [images, setImages] = useState([]) // For file objects
+  const [images, setImages] = useState([])
   const [uploading, setUploading] = useState(false)
   const navigate = useNavigate()
 
@@ -28,7 +26,7 @@ function SubmitProperty() {
       const [parent, child] = name.split('.')
       setFormData({
         ...formData,
-        [parent]: { ...formData[parent], [child]: value }
+        [parent]: { ...formData[parent], [child]: value },
       })
     } else {
       setFormData({ ...formData, [name]: value })
@@ -46,29 +44,24 @@ function SubmitProperty() {
 
   const uploadImages = async () => {
     if (images.length === 0) return []
-    
     setUploading(true)
     const urls = []
-    
-    // Assuming backend has an endpoint to upload images and return URLs
-    // If not, you'd need to add POST /upload-images that handles multipart/form-data,
-    // uploads to GCS/Firestore storage, returns array of URLs.
-    
+
     const uploadForm = new FormData()
-    images.forEach(file => uploadForm.append('images', file))
-    
+    images.forEach((file) => uploadForm.append('images', file))
+
     try {
-      const res = await api.post('/upload-images', uploadForm, { // Add this endpoint to backend if needed
-        headers: { 'Content-Type': 'multipart/form-data' }
+      const res = await api.post('/upload-images', uploadForm, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       })
-      urls.push(...res.data.urls) // Assume response { urls: [] }
+      urls.push(...res.data.urls)
     } catch (err) {
       alert('Image upload failed')
       throw err
     } finally {
       setUploading(false)
     }
-    
+
     return urls
   }
 
@@ -85,13 +78,22 @@ function SubmitProperty() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6">Submit Property</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Example fields */}
-        <div className="mb-4">
-          <label className="block mb-1">Property Type</label>
-          <select name="property_type" onChange={handleChange} className="w-full border p-2 rounded">
+    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg mt-10">
+      <h2 className="text-3xl font-bold mb-6 text-center text-blue-900 dark:text-gold-400">
+        Submit Property
+      </h2>
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Property Type */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Property Type
+          </label>
+          <select
+            name="property_type"
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
             <option>Apartment</option>
             <option>Condominium</option>
             <option>Villa</option>
@@ -100,59 +102,142 @@ function SubmitProperty() {
             <option>Duplex</option>
           </select>
         </div>
-        <div className="mb-4">
-          <label className="block mb-1">Region</label>
-          <input name="location.region" onChange={handleChange} className="w-full border p-2 rounded" required />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-1">City</label>
-          <input name="location.city" onChange={handleChange} className="w-full border p-2 rounded" required />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-1">Site</label>
-          <input name="location.site" onChange={handleChange} className="w-full border p-2 rounded" />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-1">Bedrooms</label>
-          <input name="bedrooms" type="number" onChange={handleChange} className="w-full border p-2 rounded" required />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-1">Bathrooms</label>
-          <input name="bathrooms" type="number" onChange={handleChange} className="w-full border p-2 rounded" required />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-1">Size (sqm)</label>
-          <input name="size_sqm" type="number" onChange={handleChange} className="w-full border p-2 rounded" required />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-1">Price (ETB)</label>
-          <input name="price_etb" type="number" onChange={handleChange} className="w-full border p-2 rounded" required />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-1">Description</label>
-          <textarea name="description" onChange={handleChange} className="w-full border p-2 rounded" required />
-        </div>
-        {/* Add other fields like furnishing_status, condominium_scheme, etc. similarly */}
-        
-        <div className="mb-4">
-          <label className="block mb-1">Images (at least 3)</label>
-          <input 
-            type="file" 
-            multiple 
-            accept="image/*" 
-            onChange={handleFileChange} 
-            className="w-full border p-2 rounded" 
-            required 
+
+        {/* Region */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Region
+          </label>
+          <input
+            name="location.region"
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
           />
-          {images.length > 0 && <p>{images.length} images selected</p>}
         </div>
-        
-        <button 
-          type="submit" 
-          disabled={uploading || images.length < 3} 
-          className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 disabled:bg-gray-400"
+
+        {/* City */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            City
+          </label>
+          <input
+            name="location.city"
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
+        </div>
+
+        {/* Site */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Site
+          </label>
+          <input
+            name="location.site"
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+
+        {/* Bedrooms */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Bedrooms
+          </label>
+          <input
+            name="bedrooms"
+            type="number"
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
+        </div>
+
+        {/* Bathrooms */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Bathrooms
+          </label>
+          <input
+            name="bathrooms"
+            type="number"
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
+        </div>
+
+        {/* Size */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Size (sqm)
+          </label>
+          <input
+            name="size_sqm"
+            type="number"
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
+        </div>
+
+        {/* Price */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Price (ETB)
+          </label>
+          <input
+            name="price_etb"
+            type="number"
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Description
+          </label>
+          <textarea
+            name="description"
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            rows="4"
+            required
+          />
+        </div>
+
+        {/* Images */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Upload Images (at least 3)
+          </label>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleFileChange}
+            className="mt-1 w-full text-sm text-gray-600 dark:text-gray-400"
+            required
+          />
+          {images.length > 0 && (
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              {images.length} images selected
+            </p>
+          )}
+        </div>
+
+        {/* Submit */}
+        <button
+          type="submit"
+          disabled={uploading || images.length < 3}
+          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 rounded-lg shadow hover:from-blue-700 hover:to-blue-800 disabled:bg-gray-400 transition"
         >
-          {uploading ? 'Uploading...' : 'Submit'}
+          {uploading ? 'Uploading...' : 'Submit Property'}
         </button>
       </form>
     </div>

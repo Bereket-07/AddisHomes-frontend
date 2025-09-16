@@ -93,8 +93,8 @@ function PropertyTable({ data = [], onExport }) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-        <thead className="bg-indigo-900 text-white">
+      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+        <thead className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white sticky top-0">
           {getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
@@ -129,7 +129,7 @@ function PropertyTable({ data = [], onExport }) {
             </tr>
           ))}
         </thead>
-        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+        <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
           {getRowModel().rows.map(row => (
             <tr key={row.id}>
               {row.getVisibleCells().map(cell => (
@@ -142,9 +142,9 @@ function PropertyTable({ data = [], onExport }) {
         </tbody>
       </table>
       <button
-        onClick={() => onExport(data)}
-        className="mt-4 bg-gold-500 text-indigo-900 px-4 py-2 rounded flex items-center"
-      >
+      onClick={() => onExport(data)}
+      className="mt-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-semibold px-5 py-2 rounded-full flex items-center hover:shadow-md transition"
+        >
         <Download size={16} className="mr-2" /> Export to Excel
       </button>
     </div>

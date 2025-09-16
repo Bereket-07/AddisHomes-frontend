@@ -8,6 +8,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        primary: "var(--primary)",
+        accent: "var(--accent)",
+        secondary: "var(--secondary)",
         gold: {
           400: "#FFD700",
           500: "#FFC107",
