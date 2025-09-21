@@ -20,7 +20,8 @@ function Login() {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg mt-10">
+    // Updated: Replaced bg-white with bg-navy
+    <div className="max-w-md mx-auto bg-navy dark:bg-gray-900 p-8 rounded-xl shadow-lg mt-10">
       <h2 className="text-3xl font-bold mb-6 text-center text-blue-900 dark:text-gold-400">
         Login
       </h2>
@@ -57,7 +58,7 @@ function Login() {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 rounded-lg shadow hover:from-blue-700 hover:to-blue-800 transition"
+          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 rounded-lg shadow hover:from-blue-700 hover:to-blue-800 transition-all duration-300 hover:shadow-lg"
         >
           Login
         </button>

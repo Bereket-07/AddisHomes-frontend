@@ -31,16 +31,16 @@ function FilterForm({ onFilter, onReset }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 mb-8"
+      className="bg-theme-secondary p-6 rounded-2xl shadow-lg border border-theme mb-8 transition-colors duration-300"
     >
       <div className="flex justify-between items-center mb-6">
-        <h3 className="font-bold text-xl flex items-center text-gray-900 dark:text-gray-100">
+        <h3 className="font-bold text-xl flex items-center text-theme-primary">
           <FilterIcon size={22} className="mr-2 text-blue-500" /> Filter Properties
         </h3>
         <button
           type="button"
           onClick={onReset}
-          className="flex items-center text-sm font-medium px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+          className="flex items-center text-sm font-medium px-4 py-2 rounded-full border border-theme text-theme-secondary hover:text-theme-primary hover:bg-theme-muted transition-colors duration-200"
         >
           <RotateCcwIcon size={16} className="mr-2" /> Reset
         </button>
@@ -48,9 +48,11 @@ function FilterForm({ onFilter, onReset }) {
 
       <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 dark:text-gray-400 mb-1">Region</label>
-          <select name="location_region" onChange={handleChange}
-            className="rounded-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-2 focus:ring-2 focus:ring-blue-500"
+          <label className="text-sm text-theme-secondary mb-1">Region</label>
+          <select
+            name="location_region"
+            onChange={handleChange}
+            className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
           >
             <option value="">All Regions</option>
             <option value="Addis Ababa">Addis Ababa</option>
@@ -58,18 +60,22 @@ function FilterForm({ onFilter, onReset }) {
         </div>
 
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 dark:text-gray-400 mb-1">Site</label>
-          <select name="location_site" onChange={handleChange}
-            className="rounded-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-2 focus:ring-2 focus:ring-blue-500"
+          <label className="text-sm text-theme-secondary mb-1">Site</label>
+          <select
+            name="location_site"
+            onChange={handleChange}
+            className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
           >
             <option value="">All Places</option>
           </select>
         </div>
 
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 dark:text-gray-400 mb-1">Property Type</label>
-          <select name="property_type" onChange={handleChange}
-            className="rounded-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-2 focus:ring-2 focus:ring-blue-500"
+          <label className="text-sm text-theme-secondary mb-1">Property Type</label>
+          <select
+            name="property_type"
+            onChange={handleChange}
+            className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
           >
             <option value="">All</option>
             <option value="APARTMENT">Apartment</option>
@@ -79,9 +85,11 @@ function FilterForm({ onFilter, onReset }) {
         </div>
 
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 dark:text-gray-400 mb-1">Status</label>
-          <select name="status" onChange={handleChange}
-            className="rounded-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-2 focus:ring-2 focus:ring-blue-500"
+          <label className="text-sm text-theme-secondary mb-1">Status</label>
+          <select
+            name="status"
+            onChange={handleChange}
+            className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
           >
             <option value="">All</option>
             <option value="APPROVED">Approved</option>
@@ -91,12 +99,14 @@ function FilterForm({ onFilter, onReset }) {
         </div>
 
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 dark:text-gray-400 mb-1">Price Range</label>
-          <select name="price_range" onChange={(e) => {
-            const [min, max] = e.target.value.split('-')
-            setFilters({ ...filters, min_price: min, max_price: max })
-          }}
-            className="rounded-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-2 focus:ring-2 focus:ring-blue-500"
+          <label className="text-sm text-theme-secondary mb-1">Price Range</label>
+          <select
+            name="price_range"
+            onChange={(e) => {
+              const [min, max] = e.target.value.split('-')
+              setFilters({ ...filters, min_price: min, max_price: max })
+            }}
+            className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
           >
             <option value="">Any</option>
             <option value="0-1000000">Under 1M</option>
@@ -106,12 +116,14 @@ function FilterForm({ onFilter, onReset }) {
         </div>
 
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 dark:text-gray-400 mb-1">Bedrooms</label>
-          <select name="bedrooms" onChange={(e) => {
-            const [min, max] = e.target.value.split('-')
-            setFilters({ ...filters, min_bedrooms: min, max_bedrooms: max })
-          }}
-            className="rounded-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-2 focus:ring-2 focus:ring-blue-500"
+          <label className="text-sm text-theme-secondary mb-1">Bedrooms</label>
+          <select
+            name="bedrooms"
+            onChange={(e) => {
+              const [min, max] = e.target.value.split('-')
+              setFilters({ ...filters, min_bedrooms: min, max_bedrooms: max })
+            }}
+            className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
           >
             <option value="">Any</option>
             <option value="1-1">1 Bed</option>
@@ -131,9 +143,11 @@ function FilterForm({ onFilter, onReset }) {
           { name: 'has_private_entrance', label: 'Entrance', options: [{ v: true, l: 'Yes' }, { v: false, l: 'No' }] },
         ].map(f => (
           <div key={f.name} className="flex flex-col">
-            <label className="text-sm text-gray-600 dark:text-gray-400 mb-1">{f.label}</label>
-            <select name={f.name} onChange={handleChange}
-              className="rounded-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-2 focus:ring-2 focus:ring-blue-500"
+            <label className="text-sm text-theme-secondary mb-1">{f.label}</label>
+            <select
+              name={f.name}
+              onChange={handleChange}
+              className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
             >
               <option value="">Any</option>
               {f.options.map(o => <option key={o.v} value={o.v}>{o.l}</option>)}
@@ -145,7 +159,7 @@ function FilterForm({ onFilter, onReset }) {
       <div className="flex justify-end mt-6">
         <button
           type="submit"
-          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-full font-semibold shadow hover:shadow-xl transition"
+          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-full font-semibold shadow hover:shadow-xl transition-all duration-300 hover:scale-105"
         >
           Apply Filters
         </button>

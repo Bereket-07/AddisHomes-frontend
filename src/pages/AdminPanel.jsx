@@ -89,8 +89,11 @@ function AdminPanel() {
   }
 
   // ------------------- Render Property Card -------------------
+  // Updated PropertyCard component
   const PropertyCard = ({ prop, showActions = true }) => (
-    <div className="mb-4 p-4 rounded-lg shadow bg-white dark:bg-gray-800">
+    // Updated main div: bg-navy uses --primary, dark:bg-gray-800 for explicit dark bg
+    <div className="mb-4 p-4 rounded-lg shadow bg-navy dark:bg-gray-800">
+      {/* Updated text colors with dark: variants */}
       <p className="mb-1 font-semibold text-gray-900 dark:text-white">
         {prop.property_type} - {prop.price_etb} ETB
       </p>
@@ -106,35 +109,17 @@ function AdminPanel() {
 
       {showActions && (
         <div className="flex flex-wrap gap-2">
-          {prop.status === 'PENDING' && (
-            <>
-              <button
-                onClick={() => approve(prop.pid)}
-                className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
-              >
-                Approve
-              </button>
-              <button
-                onClick={() => reject(prop.pid)}
-                className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-              >
-                Reject
-              </button>
-            </>
-          )}
-          {prop.status !== 'SOLD' && (
-            <button
-              onClick={() => markSold(prop.pid)}
-              className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded"
-            >
-              Mark Sold
-            </button>
-          )}
           <button
-            onClick={() => removeProperty(prop.pid)}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded"
+            onClick={() => approve(prop.pid)}
+            className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
           >
-            Delete
+            Approve
+          </button>
+          <button
+            onClick={() => reject(prop.pid)}
+            className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+          >
+            Reject
           </button>
         </div>
       )}
@@ -148,6 +133,7 @@ function AdminPanel() {
         return pending.length ? (
           pending.map((prop) => <PropertyCard key={prop.pid} prop={prop} />)
         ) : (
+          // Updated text color for empty state
           <p className="text-gray-700 dark:text-gray-300">No pending properties.</p>
         )
 
@@ -155,17 +141,21 @@ function AdminPanel() {
         return allProperties.length ? (
           allProperties.map((prop) => <PropertyCard key={prop.pid} prop={prop} />)
         ) : (
+          // Updated text color for empty state
           <p className="text-gray-700 dark:text-gray-300">No properties available.</p>
         )
 
       case 'create':
         return (
-          <div className="p-6 rounded-lg shadow bg-white dark:bg-gray-800 max-w-md">
+          // Updated main div: bg-navy uses --primary, dark:bg-gray-800 for explicit dark bg
+          <div className="p-6 rounded-lg shadow bg-navy dark:bg-gray-800 max-w-md">
+            {/* Updated heading text color */}
             <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gold-400">
               Create New Property
             </h3>
             {Object.keys(newProperty).map((key) => (
               <div key={key} className="mb-3">
+                {/* Updated label text color */}
                 <label className="block mb-1 font-medium text-gray-700 dark:text-gray-300">
                   {key}
                 </label>
@@ -175,6 +165,7 @@ function AdminPanel() {
                   onChange={(e) =>
                     setNewProperty((prev) => ({ ...prev, [key]: e.target.value }))
                   }
+                  // Updated input background for dark mode
                   className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
               </div>
@@ -190,10 +181,13 @@ function AdminPanel() {
 
       case 'analytics':
         return (
-          <div className="p-6 rounded-lg shadow bg-white dark:bg-gray-800 max-w-md">
+          // Updated main div: bg-navy uses --primary, dark:bg-gray-800 for explicit dark bg
+          <div className="p-6 rounded-lg shadow bg-navy dark:bg-gray-800 max-w-md">
+            {/* Updated heading text color */}
             <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gold-400">
               Analytics
             </h3>
+            {/* Updated pre background and text colors */}
             <pre className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-4 rounded-lg overflow-x-auto text-sm">
               {JSON.stringify(analytics, null, 2)}
             </pre>
@@ -206,7 +200,10 @@ function AdminPanel() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
+    // Updated main container div: bg-navy uses --primary, dark:bg-gray-900 for explicit dark bg
+    // text-navy uses --text variable, dark:text-gray-100 for explicit dark text
+    <div className="max-w-5xl mx-auto p-6 bg-navy text-navy dark:bg-gray-900 dark:text-gray-100">
+      {/* Updated main heading text color */}
       <h1 className="text-3xl font-bold mb-6 text-blue-900 dark:text-gold-400">
         Admin Panel
       </h1>
@@ -217,11 +214,11 @@ function AdminPanel() {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-4 py-2 rounded-lg font-medium transition ${
-              tab === t
+            // Updated button colors for dark mode consistency
+            className={`px-4 py-2 rounded-lg font-medium transition ${tab === t
                 ? 'bg-blue-600 text-white shadow'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-            }`}
+              }`}
           >
             {t.charAt(0).toUpperCase() + t.slice(1)}
           </button>

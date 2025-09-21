@@ -1,4 +1,4 @@
-// src/App.jsx (Updated for Dark Mode)
+// src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Home from './pages/Home'
@@ -14,37 +14,40 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-      <AuthProvider>
-        <Router>
-          <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-            <Header />
-            <main className="flex-grow container mx-auto px-4 py-8">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/properties/:id" element={<PropertyDetail />} />
-                <Route path="/submit" element={
-                  <PrivateRoute roles={['broker']}>
-                    <SubmitProperty />
-                  </PrivateRoute>
-                } />
-                <Route path="/my-listings" element={
-                  <PrivateRoute roles={['broker']}>
-                    <MyListings />
-                  </PrivateRoute>
-                } />
-                <Route path="/admin" element={
-                  <PrivateRoute roles={['admin']}>
-                    <AdminPanel />
-                  </PrivateRoute>
-                } />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
-        </Router>
-      </AuthProvider>
+    <AuthProvider>
+      <Router>
+        {/* Removed bg-white, text-gray-900, dark:bg-gray-900, dark:text-gray-100 */}
+        {/* min-h-screen is kept for layout, flex-col is often needed for sticky footer layouts */}
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          {/* Main content with proper container margins */}
+          <main className="flex-grow container mx-auto px-4 py-8 max-w-7xl">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/properties/:id" element={<PropertyDetail />} />
+              <Route path="/submit" element={
+                <PrivateRoute roles={['broker']}>
+                  <SubmitProperty />
+                </PrivateRoute>
+              } />
+              <Route path="/my-listings" element={
+                <PrivateRoute roles={['broker']}>
+                  <MyListings />
+                </PrivateRoute>
+              } />
+              <Route path="/admin" element={
+                <PrivateRoute roles={['admin']}>
+                  <AdminPanel />
+                </PrivateRoute>
+              } />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
   )
 }
 

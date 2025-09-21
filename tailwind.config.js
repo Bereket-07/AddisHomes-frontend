@@ -1,20 +1,33 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: "class", // ✅ enable class-based dark mode
+  darkMode: "class",
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // ✅ covers React components
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        primary: "var(--primary)",
+        theme: {
+          primary: "var(--bg-primary)",
+          secondary: "var(--bg-secondary)",
+          muted: "var(--bg-muted)",
+          accent: "var(--accent)",
+          border: "var(--border)",
+        },
+        text: {
+          primary: "var(--text-primary)",
+          secondary: "var(--text-secondary)",
+          muted: "var(--text-muted)",
+        },
+        // Legacy support
+        primary: "var(--bg-primary)",
         accent: "var(--accent)",
-        secondary: "var(--secondary)",
+        secondary: "var(--bg-secondary)",
         gold: {
-          400: "#FFD700",
-          500: "#FFC107",
-          600: "#FFB300",
+          400: "var(--accent)",
+          500: "var(--accent)",
+          600: "var(--accent)",
         },
       },
     },

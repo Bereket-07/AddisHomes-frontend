@@ -1,57 +1,987 @@
-@import "tailwindcss";
+/* src/index.css */
 
+@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Browser-specific fixes to match Edge rendering in Chrome and others */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* Fix flexbox rendering differences between browsers */
+.flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.flex-col {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -moz-box-orient: vertical;
+  -moz-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex-grow {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -moz-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+/* Fix grid rendering for Chrome to match Edge */
+.grid {
+  display: -ms-grid;
+  display: grid;
+}
+
+/* Fix transitions to match Edge behavior */
+.transition-all {
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.transition-colors {
+  -webkit-transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  -moz-transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  -ms-transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Fix transforms to match Edge */
+.transform {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.scale-105 {
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.scale-98 {
+  -webkit-transform: scale(0.98);
+  -moz-transform: scale(0.98);
+  -ms-transform: scale(0.98);
+  transform: scale(0.98);
+}
+
 :root {
-  --primary: #ffffff;   /* Pure white for backgrounds */
-  --accent: #D4AF37;    /* Gold stays, for elegance */
-  --secondary: #4C1D95; /* Indigo, for buttons and highlights */
-  --text: #1A1A1A;      /* Dark gray for readable text */
-  --muted: #f8f9fa;     /* Very soft off-white for sections */
+  /* Light mode variables */
+  --bg-primary: #ffffff;
+  /* Main background */
+  --bg-secondary: #f8fafc;
+  /* Card/section backgrounds */
+  --bg-muted: #f1f5f9;
+  /* Subtle backgrounds */
+  --text-primary: #1e293b;
+  /* Main text */
+  --text-secondary: #64748b;
+  /* Secondary text */
+  --text-muted: #94a3b8;
+  /* Muted text */
+  --accent: #d4af37;
+  /* Gold accent */
+  --border: #e2e8f0;
+  /* Borders */
+  --success: #10b981;
+  /* Success color */
+  --warning: #f59e0b;
+  /* Warning color */
+  --error: #ef4444;
+  /* Error color */
 }
 
 .dark {
-  --primary: #1F2937;   /* Dark gray */
-  --accent: #D4AF37;    /* Gold stays */
-  --secondary: #312E81; /* Dark indigo */
-  --text: #f3f4f6;      /* Almost white */
-  --muted: #111827;     /* Dark muted background */
+  /* Dark mode variables */
+  --bg-primary: #0f172a;
+  /* Main background */
+  --bg-secondary: #1e293b;
+  /* Card/section backgrounds */
+  --bg-muted: #334155;
+  /* Subtle backgrounds */
+  --text-primary: #f1f5f9;
+  /* Main text */
+  --text-secondary: #cbd5e1;
+  /* Secondary text */
+  --text-muted: #94a3b8;
+  /* Muted text */
+  --accent: #d4af37;
+  /* Gold accent */
+  --border: #475569;
+  /* Borders */
+  --success: #10b981;
+  /* Success color */
+  --warning: #f59e0b;
+  /* Warning color */
+  --error: #ef4444;
+  /* Error color */
 }
 
-
-
-/* Additional global styles for better UI appeal */
+/* Apply theme colors */
 body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'Inter', sans-serif;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Ensure full height */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Link styles */
 a {
-  transition: color 0.2s;
+  color: var(--text-primary);
+  transition: color 0.2s ease;
 }
 
+a:hover {
+  color: var(--accent);
+}
+
+/* Button transitions */
 button {
-  transition: background-color 0.2s, transform 0.1s;
+  transition: all 0.2s ease;
 }
 
 button:active {
   transform: scale(0.98);
 }
 
-/* Custom utilities if needed */
+/* Custom utilities */
 @layer utilities {
+
+  /* Background utilities */
+  .bg-theme-primary {
+    background-color: var(--bg-primary);
+  }
+
+  .bg-theme-secondary {
+    background-color: var(--bg-secondary);
+  }
+
+  .bg-theme-muted {
+    background-color: var(--bg-muted);
+  }
+
+  /* Text utilities */
+  .text-theme-primary {
+    color: var(--text-primary);
+  }
+
+  .text-theme-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-theme-muted {
+    color: var(--text-muted);
+  }
+
+  .text-theme-accent {
+    color: var(--accent);
+  }
+
+  /* Border utilities */
+  .border-theme {
+    border-color: var(--border);
+  }
+
+  /* Legacy utilities for backwards compatibility */
   .text-gold {
     color: var(--accent);
   }
+
   .bg-gold {
     background-color: var(--accent);
   }
+
   .text-navy {
-    color: var(--primary);
+    color: var(--text-primary);
   }
+
   .bg-navy {
-    background-color: var(--primary);
+    background-color: var(--bg-primary);
+  }
+}
+
+/* Mobile and Tablet Responsive Design */
+@media (max-width: 768px) {
+
+  /* Mobile-specific fixes */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Fix mobile grid layout */
+  .grid-cols-1 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Mobile text sizing */
+  .text-4xl {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+
+  .text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
+  .text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  /* Mobile spacing */
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .py-8 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .mb-8 {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Mobile flex adjustments */
+  .flex.justify-between {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Mobile card adjustments */
+  .rounded-2xl {
+    border-radius: 1rem;
+  }
+
+  .shadow-lg {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (max-width: 640px) {
+
+  /* Small mobile devices */
+  .text-4xl {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+  }
+
+  .px-4 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .gap-6 {
+    gap: 1rem;
+  }
+
+  .gap-4 {
+    gap: 0.75rem;
+  }
+
+  /* Stack mobile elements */
+  .md\\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .md\\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .md\\:grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .lg\\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  /* Tablet specific adjustments */
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lg\\:grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Tablet text sizing */
+  .text-4xl {
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
+}
+
+@media (min-width: 1025px) {
+
+  /* Desktop - ensure it matches Edge exactly */
+  .lg\\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .md\\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Fix for Chrome-specific rendering issues */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+
+  /* Chrome-specific fixes */
+  .bg-navy {
+    background-color: var(--bg-primary) !important;
+  }
+
+  .text-navy {
+    color: var(--text-primary) !important;
+  }
+
+  /* Ensure consistent font rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Fix Chrome flexbox issues */
+  .flex {
+    display: -webkit-flex;
+    display: flex;
+  }
+
+  .flex-col {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .flex-grow {
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+  }
+}
+
+/* Edge-specific fixes to maintain consistency */
+@supports (-ms-ime-align: auto) {
+  .flex {
+    display: -ms-flexbox;
+    display: flex;
+  }
+
+  .flex-col {
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .flex-grow {
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+  }
+}
+
+/* Header-specific fixes for cross-browser compatibility */
+.h-16 {
+  height: 4rem;
+}
+
+.max-w-7xl {
+  max-width: 80rem;
+}
+
+/* Ensure header margins are consistent across browsers */
+.mx-auto.max-w-7xl {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .mx-auto.max-w-7xl {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+.space-x-3>*+* {
+  margin-left: 0.75rem;
+}
+
+.space-x-4>*+* {
+  margin-left: 1rem;
+}
+
+.hover\\:scale-105:hover {
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.transition-transform {
+  -webkit-transition: -webkit-transform 0.2s ease;
+  -moz-transition: -moz-transform 0.2s ease;
+  -ms-transition: -ms-transform 0.2s ease;
+  transition: transform 0.2s ease;
+}
+
+/* Mobile header fixes */
+@media (max-width: 768px) {
+  .hidden.md\\:flex {
+    display: none;
+  }
+
+  .md\\:hidden {
+    display: block;
+  }
+
+  .space-x-4 {
+    gap: 0.5rem;
+  }
+
+  .space-x-4>*+* {
+    margin-left: 0;
+  }
+
+  .text-2xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .px-3 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .py-1 {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .h-16 {
+    height: 3.5rem;
+  }
+
+  .text-2xl {
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+  }
+
+  .h-10 {
+    height: 2rem;
+  }
+
+  .w-10 {
+    width: 2rem;
+  }
+
+  .space-x-3 {
+    gap: 0.5rem;
+  }
+
+  .space-x-3>*+* {
+    margin-left: 0;
+  }
+}
+
+/* PropertyCard specific fixes */
+.h-56 {
+  height: 14rem;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Fix gradient backgrounds for cross-browser compatibility */
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+
+.from-blue-500 {
+  --tw-gradient-from: #3b82f6;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(59, 130, 246, 0));
+}
+
+.to-indigo-600 {
+  --tw-gradient-to: #4f46e5;
+}
+
+/* Mobile PropertyCard fixes */
+@media (max-width: 768px) {
+  .h-56 {
+    height: 12rem;
+  }
+
+  .p-5 {
+    padding: 1rem;
+  }
+
+  .text-lg {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .text-xl {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .gap-4 {
+    gap: 0.75rem;
+  }
+
+  .gap-4>*+* {
+    margin-left: 0;
+  }
+
+  .py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .h-56 {
+    height: 10rem;
+  }
+
+  .p-5 {
+    padding: 0.75rem;
+  }
+
+  .text-lg {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .text-xl {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .gap-4 {
+    gap: 0.5rem;
+  }
+
+  .text-sm {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+}
+
+/* Additional mobile improvements */
+.h-48 {
+  height: 12rem;
+}
+
+@media (max-width: 768px) {
+  .h-48 {
+    height: 10rem;
+  }
+
+  .p-3 {
+    padding: 0.75rem;
+  }
+
+  .gap-2 {
+    gap: 0.5rem;
+  }
+
+  .py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .rounded-xl {
+    border-radius: 0.75rem;
+  }
+
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .h-48 {
+    height: 8rem;
+  }
+
+  .p-3 {
+    padding: 0.5rem;
+  }
+
+  .gap-2 {
+    gap: 0.25rem;
+  }
+
+  .text-xs {
+    font-size: 0.625rem;
+    line-height: 0.875rem;
+  }
+
+  .px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .py-2 {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+  }
+}
+
+/* Line clamp utility for text truncation */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Better mobile spacing */
+@media (max-width: 768px) {
+  .mb-6 {
+    margin-bottom: 1rem;
+  }
+
+  .mb-8 {
+    margin-bottom: 1.5rem;
+  }
+
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Mobile view toggle improvements */
+@media (max-width: 640px) {
+  .sm\\:inline {
+    display: none;
+  }
+
+  .flex.items-center {
+    justify-content: center;
+  }
+
+  .px-3 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .py-2 {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+  }
+}
+
+/* Fixed mobile view toggle positioning */
+.fixed.top-20 {
+  top: 5rem;
+}
+
+@media (max-width: 640px) {
+  .fixed.top-20 {
+    top: 4.5rem;
+  }
+
+  .fixed.right-4 {
+    right: 1rem;
+  }
+
+  .z-40 {
+    z-index: 40;
+  }
+
+  .shadow-xl {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .rounded-xl {
+    border-radius: 0.75rem;
+  }
+
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+
+  .transform.scale-105 {
+    transform: scale(1.05);
+  }
+
+  .transition-all.duration-300 {
+    transition: all 0.3s ease;
+  }
+}
+
+/* Ensure mobile view toggle doesn't interfere with header */
+@media (max-width: 768px) {
+  .md\\:hidden {
+    display: block;
+  }
+
+  .hidden.md\\:flex {
+    display: none;
+  }
+}
+
+/* Container fixes for consistent margins across browsers */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Force consistent container behavior in Chrome */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .container {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem !important;
+      padding-right: 1.5rem !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      padding-left: 2rem !important;
+      padding-right: 2rem !important;
+    }
+  }
+}
+
+/* Ensure main content respects container margins */
+main.container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Fix for Chrome full-width issues */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  main.container {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    max-width: 100% !important;
+  }
+
+  @media (min-width: 640px) {
+    main.container {
+      padding-left: 1.5rem !important;
+      padding-right: 1.5rem !important;
+      max-width: 640px !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    main.container {
+      padding-left: 2rem !important;
+      padding-right: 2rem !important;
+      max-width: 768px !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    main.container {
+      max-width: 1024px !important;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    main.container {
+      max-width: 1280px !important;
+    }
+  }
+}
+
+/* Additional Chrome fixes for body and root elements */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  #root {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Force max-width behavior */
+  .max-w-7xl {
+    max-width: 80rem !important;
+  }
+
+  main.container.max-w-7xl {
+    max-width: 80rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Force container behavior */
+  .container {
+    box-sizing: border-box !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem !important;
+      padding-right: 1.5rem !important;
+      max-width: 640px !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      padding-left: 2rem !important;
+      padding-right: 2rem !important;
+      max-width: 768px !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 1024px !important;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 1280px !important;
+    }
   }
 }

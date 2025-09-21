@@ -29,7 +29,8 @@ function Signup() {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg mt-10">
+    // Updated: Replaced bg-white with bg-navy for background, added text-navy for text color
+    <div className="max-w-md mx-auto bg-navy dark:bg-gray-900 p-8 rounded-xl shadow-lg mt-10 text-navy">
       <h2 className="text-3xl font-bold mb-6 text-center text-blue-900 dark:text-gold-400">
         Create Your Account
       </h2>
