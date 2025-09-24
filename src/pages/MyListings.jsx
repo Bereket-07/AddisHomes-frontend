@@ -1,12 +1,14 @@
 // src/pages/MyListings.jsx (Updated similarly with views)
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import api from '../api'
 import PropertyCard from '../components/PropertyCard'
 import PropertyTable from '../components/PropertyTable'
 import { GridIcon, TableIcon, AlertCircleIcon } from 'lucide-react'
 import * as XLSX from 'xlsx'
+import LanguageContext from '../context/LanguageContext'
 
 function MyListings() {
+  const { t } = useContext(LanguageContext)
   const [properties, setProperties] = useState([])
   const [view, setView] = useState('card')
   const [loading, setLoading] = useState(true)
@@ -42,7 +44,7 @@ function MyListings() {
     return (
       <div className="text-center py-8">
         <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">Loading your properties...</p>
+        <p className="mt-2 text-gray-600 dark:text-gray-400">{t('loading_properties')}</p>
       </div>
     )
   }
@@ -68,9 +70,9 @@ function MyListings() {
   return (
     <div className="w-full">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-indigo-900 dark:text-gold-300 mb-2">My Listings</h1>
+        <h1 className="text-3xl font-bold text-indigo-900 dark:text-gold-300 mb-2">{t('my_listings')}</h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Manage and view all your submitted properties
+          {t('manage_my_listings') || 'Manage and view all your submitted properties'}
         </p>
       </div>
 
@@ -80,22 +82,22 @@ function MyListings() {
           <button
             onClick={() => setView('card')}
             className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${view === 'card'
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+              ? 'bg-indigo-600 text-white shadow-sm'
+              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               }`}
           >
             <GridIcon size={16} className="mr-2" />
-            <span>Cards</span>
+            <span>{t('cards')}</span>
           </button>
           <button
             onClick={() => setView('table')}
             className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${view === 'table'
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+              ? 'bg-indigo-600 text-white shadow-sm'
+              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               }`}
           >
             <TableIcon size={16} className="mr-2" />
-            <span>Table</span>
+            <span>{t('table')}</span>
           </button>
         </div>
       </div>
@@ -106,22 +108,22 @@ function MyListings() {
           <button
             onClick={() => setView('card')}
             className={`flex items-center px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${view === 'card'
-                ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white shadow-lg transform scale-105'
-                : 'text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+              ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white shadow-lg transform scale-105'
+              : 'text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700'
               }`}
           >
             <GridIcon size={16} className="mr-1.5" />
-            <span className="font-medium">Cards</span>
+            <span className="font-medium">{t('cards')}</span>
           </button>
           <button
             onClick={() => setView('table')}
             className={`flex items-center px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${view === 'table'
-                ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white shadow-lg transform scale-105'
-                : 'text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+              ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white shadow-lg transform scale-105'
+              : 'text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700'
               }`}
           >
             <TableIcon size={16} className="mr-1.5" />
-            <span className="font-medium">Table</span>
+            <span className="font-medium">{t('table')}</span>
           </button>
         </div>
       </div>
@@ -134,16 +136,16 @@ function MyListings() {
             </svg>
           </div>
           <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-            No Properties Found
+            {t('no_properties_available')}
           </h3>
           <p className="text-gray-500 dark:text-gray-400 mb-6">
-            You haven't submitted any properties yet.
+            {t('no_properties_yet') || "You haven't submitted any properties yet."}
           </p>
           <a
             href="/submit"
             className="inline-flex items-center bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors"
           >
-            Submit Your First Property
+            {t('submit_property')}
           </a>
         </div>
       ) : (

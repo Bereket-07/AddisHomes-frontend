@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { FilterIcon, RotateCcwIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
+import LanguageContext from '../context/LanguageContext'
 import {
     PROPERTY_TYPES,
     CONDO_SCHEMES,
@@ -14,6 +15,7 @@ import {
 } from '../utils/filterConstants'
 
 function AdvancedFilterForm({ onFilter, onReset }) {
+    const { t } = useContext(LanguageContext)
     const [filters, setFilters] = useState({
         property_type: '',
         location_region: '',
@@ -129,7 +131,7 @@ function AdvancedFilterForm({ onFilter, onReset }) {
         >
             <div className="flex justify-between items-center mb-6">
                 <h3 className="font-bold text-xl flex items-center text-theme-primary">
-                    <FilterIcon size={22} className="mr-2 text-blue-500" /> Advanced Property Filter
+                    <FilterIcon size={22} className="mr-2 text-blue-500" /> {t('filters')}
                 </h3>
                 <div className="flex gap-2">
                     <button
@@ -138,14 +140,14 @@ function AdvancedFilterForm({ onFilter, onReset }) {
                         className="flex items-center text-sm font-medium px-4 py-2 rounded-full border border-theme text-theme-secondary hover:text-theme-primary hover:bg-theme-muted transition-colors duration-200"
                     >
                         {showAdvanced ? <ChevronUpIcon size={16} className="mr-2" /> : <ChevronDownIcon size={16} className="mr-2" />}
-                        {showAdvanced ? 'Less Options' : 'More Options'}
+                        {showAdvanced ? t('less_options') : t('more_options')}
                     </button>
                     <button
                         type="button"
                         onClick={handleReset}
                         className="flex items-center text-sm font-medium px-4 py-2 rounded-full border border-theme text-theme-secondary hover:text-theme-primary hover:bg-theme-muted transition-colors duration-200"
                     >
-                        <RotateCcwIcon size={16} className="mr-2" /> Reset
+                        <RotateCcwIcon size={16} className="mr-2" /> {t('reset_filters')}
                     </button>
                 </div>
             </div>
@@ -153,7 +155,7 @@ function AdvancedFilterForm({ onFilter, onReset }) {
             {/* Basic Filters */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <div className="flex flex-col">
-                    <label className="text-sm text-theme-secondary mb-1">Property Type *</label>
+                    <label className="text-sm text-theme-secondary mb-1">{t('property_type')} *</label>
                     <select
                         name="property_type"
                         value={filters.property_type}
@@ -161,22 +163,22 @@ function AdvancedFilterForm({ onFilter, onReset }) {
                         className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                         required
                     >
-                        <option value="">Select Property Type</option>
+                        <option value="">{t('select_property_type')}</option>
                         {PROPERTY_TYPES.map(type => (
-                            <option key={type.value} value={type.value}>{type.label}</option>
+                            <option key={type.value} value={type.value}>{t(type.value.toLowerCase())}</option>
                         ))}
                     </select>
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm text-theme-secondary mb-1">Region</label>
+                    <label className="text-sm text-theme-secondary mb-1">{t('region')}</label>
                     <select
                         name="location_region"
                         value={filters.location_region}
                         onChange={handleChange}
                         className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                     >
-                        <option value="">Any Region</option>
+                        <option value="">{t('any_region')}</option>
                         {REGIONS.map(region => (
                             <option key={region} value={region}>{region}</option>
                         ))}
@@ -184,43 +186,43 @@ function AdvancedFilterForm({ onFilter, onReset }) {
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm text-theme-secondary mb-1">Site/Area</label>
+                    <label className="text-sm text-theme-secondary mb-1">{t('site_area')}</label>
                     <select
                         name="location_site"
                         value={filters.location_site}
                         onChange={handleChange}
                         className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                     >
-                        <option value="">Any Site</option>
+                        <option value="">{t('any_site')}</option>
                         {SUPPORTED_SITES.map(site => (
                             <option key={site} value={site}>{site}</option>
                         ))}
-                        <option value="Other">Other (Specify)</option>
+                        <option value="Other">{t('other_specify')}</option>
                     </select>
                 </div>
 
                 {showCustomSite && (
                     <div className="flex flex-col">
-                        <label className="text-sm text-theme-secondary mb-1">Custom Site</label>
+                        <label className="text-sm text-theme-secondary mb-1">{t('custom_site')}</label>
                         <input
                             type="text"
                             name="custom_site"
                             value={filters.custom_site}
                             onChange={handleChange}
-                            placeholder="Enter specific area"
+                            placeholder={t('enter_specific_area')}
                             className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                         />
                     </div>
                 )}
 
                 <div className="flex flex-col">
-                    <label className="text-sm text-theme-secondary mb-1">Price Range</label>
+                    <label className="text-sm text-theme-secondary mb-1">{t('price_range')}</label>
                     <select
                         value={getCurrentPriceRange()}
                         onChange={handlePriceRangeChange}
                         className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                     >
-                        <option value="">Any Price</option>
+                        <option value="">{t('any_price')}</option>
                         {PRICE_RANGES.map(range => (
                             <option key={range.label} value={range.label}>{range.label}</option>
                         ))}
@@ -228,17 +230,17 @@ function AdvancedFilterForm({ onFilter, onReset }) {
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm text-theme-secondary mb-1">Bedrooms</label>
+                    <label className="text-sm text-theme-secondary mb-1">{t('bedrooms_count')}</label>
                     <select
                         name="min_bedrooms"
                         value={filters.min_bedrooms}
                         onChange={handleChange}
                         className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                     >
-                        <option value="">Any</option>
+                        <option value="">{t('any')}</option>
                         {BEDROOM_OPTIONS.map(bedrooms => (
                             <option key={bedrooms} value={bedrooms}>
-                                {bedrooms === 6 ? '6+' : `${bedrooms} Bedroom${bedrooms > 1 ? 's' : ''}`}
+                                {bedrooms === 6 ? '6+' : `${bedrooms} ${t('bedrooms')}`}
                             </option>
                         ))}
                     </select>
@@ -248,20 +250,18 @@ function AdvancedFilterForm({ onFilter, onReset }) {
             {/* Property-specific filters */}
             {showPropertySpecificFilters() && (
                 <div className="mb-6 p-4 bg-theme-muted rounded-lg">
-                    <h4 className="font-semibold text-theme-primary mb-4">
-                        {filters.property_type} Specific Filters
-                    </h4>
+                    <h4 className="font-semibold text-theme-primary mb-4">{t('filters')}</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {getAvailableFilters().includes('condominium_scheme') && (
                             <div className="flex flex-col">
-                                <label className="text-sm text-theme-secondary mb-1">Condo Scheme</label>
+                                <label className="text-sm text-theme-secondary mb-1">{t('condo_scheme')}</label>
                                 <select
                                     name="condominium_scheme"
                                     value={filters.condominium_scheme}
                                     onChange={handleChange}
                                     className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                 >
-                                    <option value="">Any Scheme</option>
+                                    <option value="">{t('any_scheme')}</option>
                                     {CONDO_SCHEMES.map(scheme => (
                                         <option key={scheme.value} value={scheme.value}>{scheme.label}</option>
                                     ))}
@@ -271,94 +271,94 @@ function AdvancedFilterForm({ onFilter, onReset }) {
 
                         {getAvailableFilters().includes('filter_is_commercial') && (
                             <div className="flex flex-col">
-                                <label className="text-sm text-theme-secondary mb-1">Commercial</label>
+                                <label className="text-sm text-theme-secondary mb-1">{t('commercial')}</label>
                                 <select
                                     name="filter_is_commercial"
                                     value={filters.filter_is_commercial}
                                     onChange={handleChange}
                                     className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                 >
-                                    <option value="">Any</option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
+                                    <option value="">{t('any')}</option>
+                                    <option value="true">{t('yes')}</option>
+                                    <option value="false">{t('no')}</option>
                                 </select>
                             </div>
                         )}
 
                         {getAvailableFilters().includes('filter_has_elevator') && (
                             <div className="flex flex-col">
-                                <label className="text-sm text-theme-secondary mb-1">Has Elevator</label>
+                                <label className="text-sm text-theme-secondary mb-1">{t('has_elevator')}</label>
                                 <select
                                     name="filter_has_elevator"
                                     value={filters.filter_has_elevator}
                                     onChange={handleChange}
                                     className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                 >
-                                    <option value="">Any</option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
+                                    <option value="">{t('any')}</option>
+                                    <option value="true">{t('yes')}</option>
+                                    <option value="false">{t('no')}</option>
                                 </select>
                             </div>
                         )}
 
                         {getAvailableFilters().includes('filter_has_private_rooftop') && (
                             <div className="flex flex-col">
-                                <label className="text-sm text-theme-secondary mb-1">Private Rooftop</label>
+                                <label className="text-sm text-theme-secondary mb-1">{t('private_rooftop')}</label>
                                 <select
                                     name="filter_has_private_rooftop"
                                     value={filters.filter_has_private_rooftop}
                                     onChange={handleChange}
                                     className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                 >
-                                    <option value="">Any</option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
+                                    <option value="">{t('any')}</option>
+                                    <option value="true">{t('yes')}</option>
+                                    <option value="false">{t('no')}</option>
                                 </select>
                             </div>
                         )}
 
                         {getAvailableFilters().includes('filter_is_two_story_penthouse') && (
                             <div className="flex flex-col">
-                                <label className="text-sm text-theme-secondary mb-1">Two Story</label>
+                                <label className="text-sm text-theme-secondary mb-1">{t('two_story')}</label>
                                 <select
                                     name="filter_is_two_story_penthouse"
                                     value={filters.filter_is_two_story_penthouse}
                                     onChange={handleChange}
                                     className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                 >
-                                    <option value="">Any</option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
+                                    <option value="">{t('any')}</option>
+                                    <option value="true">{t('yes')}</option>
+                                    <option value="false">{t('no')}</option>
                                 </select>
                             </div>
                         )}
 
                         {getAvailableFilters().includes('filter_has_private_entrance') && (
                             <div className="flex flex-col">
-                                <label className="text-sm text-theme-secondary mb-1">Private Entrance</label>
+                                <label className="text-sm text-theme-secondary mb-1">{t('private_entrance')}</label>
                                 <select
                                     name="filter_has_private_entrance"
                                     value={filters.filter_has_private_entrance}
                                     onChange={handleChange}
                                     className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                 >
-                                    <option value="">Any</option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
+                                    <option value="">{t('any')}</option>
+                                    <option value="true">{t('yes')}</option>
+                                    <option value="false">{t('no')}</option>
                                 </select>
                             </div>
                         )}
 
                         {getAvailableFilters().includes('min_floor_level') && filters.property_type === 'Villa' && (
                             <div className="flex flex-col">
-                                <label className="text-sm text-theme-secondary mb-1">Structure (G+)</label>
+                                <label className="text-sm text-theme-secondary mb-1">{t('structure_g_plus')}</label>
                                 <select
                                     name="min_floor_level"
                                     value={filters.min_floor_level}
                                     onChange={handleChange}
                                     className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                 >
-                                    <option value="">Any</option>
+                                    <option value="">{t('any')}</option>
                                     {G_PLUS_OPTIONS.map(option => (
                                         <option key={option} value={option.replace('G+', '').replace('+', '')}>
                                             {option}
@@ -374,17 +374,17 @@ function AdvancedFilterForm({ onFilter, onReset }) {
             {/* Advanced Filters */}
             {showAdvanced && (
                 <div className="mb-6 p-4 bg-theme-muted rounded-lg">
-                    <h4 className="font-semibold text-theme-primary mb-4">Advanced Filters</h4>
+                    <h4 className="font-semibold text-theme-primary mb-4">{t('advanced_filters')}</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div className="flex flex-col">
-                            <label className="text-sm text-theme-secondary mb-1">Furnishing Status</label>
+                            <label className="text-sm text-theme-secondary mb-1">{t('furnishing_status')}</label>
                             <select
                                 name="furnishing_status"
                                 value={filters.furnishing_status}
                                 onChange={handleChange}
                                 className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                             >
-                                <option value="">Any</option>
+                                <option value="">{t('any')}</option>
                                 {FURNISHING_STATUS.map(status => (
                                     <option key={status.value} value={status.value}>{status.label}</option>
                                 ))}
@@ -392,19 +392,19 @@ function AdvancedFilterForm({ onFilter, onReset }) {
                         </div>
 
                         <div className="flex flex-col">
-                            <label className="text-sm text-theme-secondary mb-1">Min Floor Level</label>
+                            <label className="text-sm text-theme-secondary mb-1">{t('min_floor_level')}</label>
                             <select
                                 name="min_floor_level"
                                 value={filters.min_floor_level}
                                 onChange={handleChange}
                                 className="rounded-lg border border-theme bg-theme-primary text-theme-primary p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                             >
-                                <option value="">Any</option>
-                                <option value="0">Ground Floor</option>
+                                <option value="">{t('any')}</option>
+                                <option value="0">{t('ground_floor')}</option>
                                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(level => (
-                                    <option key={level} value={level}>Floor {level}</option>
+                                    <option key={level} value={level}>{t('floor_n').replace('{n}', level)}</option>
                                 ))}
-                                <option value="10">10+ Floors</option>
+                                <option value="10">{t('ten_plus_floors')}</option>
                             </select>
                         </div>
                     </div>
@@ -416,7 +416,7 @@ function AdvancedFilterForm({ onFilter, onReset }) {
                     type="submit"
                     className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-3 rounded-full font-semibold shadow hover:shadow-xl transition-all duration-300 hover:scale-105"
                 >
-                    Search Properties
+                    {t('apply_filters')}
                 </button>
             </div>
         </form>

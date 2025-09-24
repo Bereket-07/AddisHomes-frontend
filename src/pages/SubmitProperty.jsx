@@ -4,10 +4,12 @@ import api from '../api'
 import { useNavigate } from 'react-router-dom'
 import { PROPERTY_TYPES, CONDO_SCHEMES, FURNISHING_STATUS, SUPPORTED_SITES, REGIONS } from '../utils/filterConstants'
 import ThemeContext from '../context/ThemeContext'
+import LanguageContext from '../context/LanguageContext'
 import AuthContext from '../context/AuthContext'
 
 function SubmitProperty() {
   const { darkMode } = useContext(ThemeContext)
+  const { t } = useContext(LanguageContext)
   const { user, loading: authLoading } = useContext(AuthContext)
   const [formData, setFormData] = useState({
     property_type: 'Apartment',
@@ -29,7 +31,7 @@ function SubmitProperty() {
   // Check if user is authenticated and has broker role
   useEffect(() => {
     if (!authLoading && (!user || !user.roles?.includes('broker'))) {
-      alert('You need to be logged in as a broker to submit properties. Please login first.')
+      alert(t('broker_only') || 'You need to be logged in as a broker to submit properties. Please login first.')
       navigate('/login')
     }
   }, [user, authLoading, navigate])
@@ -50,7 +52,7 @@ function SubmitProperty() {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files)
     if (files.length < 3) {
-      alert('Please upload at least 3 images')
+      alert(t('upload_at_least_three') || 'Please upload at least 3 images')
       return
     }
     setImages(files)
@@ -87,12 +89,12 @@ function SubmitProperty() {
     if (!formData.property_type || !formData.location.region || !formData.location.city ||
       !formData.bedrooms || !formData.bathrooms || !formData.size_sqm ||
       !formData.price_etb || !formData.description) {
-      alert('Please fill in all required fields')
+      alert(t('fill_required_fields') || 'Please fill in all required fields')
       return
     }
 
     if (images.length < 3) {
-      alert('Please upload at least 3 images')
+      alert(t('upload_at_least_three') || 'Please upload at least 3 images')
       return
     }
 
@@ -131,7 +133,7 @@ function SubmitProperty() {
       })
 
       await api.post('/properties', submitData)
-      alert('Property submitted successfully!')
+      alert(t('submit_property_success') || 'Property submitted successfully!')
       navigate('/my-listings')
     } catch (err) {
       console.error('Submission error:', err)
@@ -146,7 +148,7 @@ function SubmitProperty() {
       <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} flex items-center justify-center`}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Loading...</p>
+          <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{t('loading') || 'Loading...'}</p>
         </div>
       </div>
     )
@@ -158,16 +160,16 @@ function SubmitProperty() {
       <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} flex items-center justify-center`}>
         <div className="text-center">
           <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>
-            Access Denied
+            {t('access_denied') || 'Access Denied'}
           </h2>
           <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} mb-6`}>
-            You need to be logged in as a broker to submit properties.
+            {t('broker_only') || 'You need to be logged in as a broker to submit properties.'}
           </p>
           <button
             onClick={() => navigate('/login')}
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Go to Login
+            {t('login')}
           </button>
         </div>
       </div>
@@ -180,7 +182,7 @@ function SubmitProperty() {
         <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-xl border ${darkMode ? 'border-gray-700' : 'border-gray-200'} transition-colors duration-300`}>
           <div className="p-8">
             <h2 className={`text-3xl font-bold mb-6 text-center ${darkMode ? 'text-gold-400' : 'text-blue-900'}`}>
-              Submit Property
+              {t('submit_property')}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -189,7 +191,7 @@ function SubmitProperty() {
                 {/* Property Type */}
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Property Type *
+                    {t('property_type')} *
                   </label>
                   <select
                     name="property_type"
@@ -210,7 +212,7 @@ function SubmitProperty() {
                 {/* Region */}
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Region *
+                    {t('region')} *
                   </label>
                   <select
                     name="location.region"
@@ -231,7 +233,7 @@ function SubmitProperty() {
                 {/* City */}
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    City *
+                    {t('city') || 'City'} *
                   </label>
                   <input
                     name="location.city"
@@ -248,7 +250,7 @@ function SubmitProperty() {
                 {/* Site */}
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Site/Area
+                    {t('site_area')}
                   </label>
                   <select
                     name="location.site"
@@ -259,7 +261,7 @@ function SubmitProperty() {
                       : 'border-gray-300 bg-gray-50 text-gray-900'
                       }`}
                   >
-                    <option value="">Select Site</option>
+                    <option value="">{t('select_site') || 'Select Site'}</option>
                     {SUPPORTED_SITES.map(site => (
                       <option key={site} value={site}>{site}</option>
                     ))}
@@ -269,7 +271,7 @@ function SubmitProperty() {
                 {/* Bedrooms */}
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Bedrooms *
+                    {t('bedrooms_count')} *
                   </label>
                   <input
                     name="bedrooms"
@@ -288,7 +290,7 @@ function SubmitProperty() {
                 {/* Bathrooms */}
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Bathrooms *
+                    {t('bathrooms_count')} *
                   </label>
                   <input
                     name="bathrooms"
@@ -307,7 +309,7 @@ function SubmitProperty() {
                 {/* Size */}
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Size (sqm) *
+                    {t('size')} (sqm) *
                   </label>
                   <input
                     name="size_sqm"
@@ -326,7 +328,7 @@ function SubmitProperty() {
                 {/* Price */}
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Price (ETB) *
+                    {t('price_range') || 'Price (ETB)'} *
                   </label>
                   <input
                     name="price_etb"
@@ -347,12 +349,12 @@ function SubmitProperty() {
               {formData.property_type === 'Condominium' && (
                 <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                   <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>
-                    Condominium Details
+                    {t('condominium_details') || 'Condominium Details'}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                        Condo Scheme
+                        {t('condo_scheme')}
                       </label>
                       <select
                         name="condominium_scheme"
@@ -363,7 +365,7 @@ function SubmitProperty() {
                           : 'border-gray-300 bg-gray-50 text-gray-900'
                           }`}
                       >
-                        <option value="">Select Scheme</option>
+                        <option value="">{t('any_scheme')}</option>
                         {CONDO_SCHEMES.map(scheme => (
                           <option key={scheme.value} value={scheme.value}>{scheme.label}</option>
                         ))}
@@ -377,7 +379,7 @@ function SubmitProperty() {
               <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={`text-lg font-semibold ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>
-                    Additional Details
+                    {t('advanced_filters')}
                   </h3>
                   <button
                     type="button"
@@ -387,7 +389,7 @@ function SubmitProperty() {
                       : 'text-blue-600 hover:bg-gray-200'
                       }`}
                   >
-                    {showAdvanced ? 'Hide' : 'Show'} Advanced
+                    {showAdvanced ? t('less_options') : t('more_options')}
                   </button>
                 </div>
 
@@ -395,7 +397,7 @@ function SubmitProperty() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                        Furnishing Status
+                        {t('furnishing_status')}
                       </label>
                       <select
                         name="furnishing_status"
@@ -419,7 +421,7 @@ function SubmitProperty() {
               {/* Description */}
               <div>
                 <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Description *
+                  {t('description') || 'Description'} *
                 </label>
                 <textarea
                   name="description"
@@ -430,7 +432,7 @@ function SubmitProperty() {
                     : 'border-gray-300 bg-gray-50 text-gray-900'
                     }`}
                   rows="4"
-                  placeholder="Describe the property, its features, and any special details..."
+                  placeholder={t('describe_property') || 'Describe the property, its features, and any special details...'}
                   required
                 />
               </div>
@@ -438,7 +440,7 @@ function SubmitProperty() {
               {/* Images */}
               <div>
                 <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Upload Images (at least 3) *
+                  {t('upload_images_min3') || 'Upload Images (at least 3) *'}
                 </label>
                 <input
                   type="file"
@@ -453,7 +455,7 @@ function SubmitProperty() {
                 />
                 {images.length > 0 && (
                   <p className={`mt-2 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {images.length} images selected
+                    {images.length} {t('images_selected') || 'images selected'}
                   </p>
                 )}
               </div>
@@ -468,7 +470,7 @@ function SubmitProperty() {
                     : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 hover:shadow-xl'
                     }`}
                 >
-                  {uploading ? 'Uploading...' : 'Submit Property'}
+                  {uploading ? (t('uploading') || 'Uploading...') : t('submit_property')}
                 </button>
               </div>
             </form>

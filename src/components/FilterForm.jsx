@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { FilterIcon, RotateCcwIcon } from 'lucide-react'
+import LanguageContext from '../context/LanguageContext'
 
 function FilterForm({ onFilter, onReset }) {
+  const { t } = useContext(LanguageContext)
   const [filters, setFilters] = useState({
     location_region: '',
     location_site: '',
@@ -35,14 +37,14 @@ function FilterForm({ onFilter, onReset }) {
     >
       <div className="flex justify-between items-center mb-6">
         <h3 className="font-bold text-xl flex items-center text-theme-primary">
-          <FilterIcon size={22} className="mr-2 text-blue-500" /> Filter Properties
+          <FilterIcon size={22} className="mr-2 text-blue-500" /> {t('filters')}
         </h3>
         <button
           type="button"
           onClick={onReset}
           className="flex items-center text-sm font-medium px-4 py-2 rounded-full border border-theme text-theme-secondary hover:text-theme-primary hover:bg-theme-muted transition-colors duration-200"
         >
-          <RotateCcwIcon size={16} className="mr-2" /> Reset
+          <RotateCcwIcon size={16} className="mr-2" /> {t('reset_filters')}
         </button>
       </div>
 
@@ -161,7 +163,7 @@ function FilterForm({ onFilter, onReset }) {
           type="submit"
           className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-full font-semibold shadow hover:shadow-xl transition-all duration-300 hover:scale-105"
         >
-          Apply Filters
+          {t('apply_filters')}
         </button>
       </div>
     </form>

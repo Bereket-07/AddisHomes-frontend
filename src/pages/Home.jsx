@@ -7,11 +7,13 @@ import { motion } from 'framer-motion'
 import { GridIcon, TableIcon, SunIcon, MoonIcon, AlertCircleIcon } from 'lucide-react'
 import * as XLSX from 'xlsx'
 import ThemeContext from '../context/ThemeContext'
+import LanguageContext from '../context/LanguageContext'
 import usePropertyFilters from '../hooks/usePropertyFilters'
 
 function Home() {
   const [view, setView] = useState('card')
   const { darkMode, setDarkMode } = useContext(ThemeContext)
+  const { t } = useContext(LanguageContext)
   const { properties, loading, error, filtered, fetchProperties, resetFilters, clearError } = usePropertyFilters()
 
   useEffect(() => {
@@ -37,10 +39,10 @@ function Home() {
       >
         <div className="max-w-4xl mx-auto">
           <h1 className="text-2xl md:text-4xl font-bold text-indigo-700 dark:text-gold-400 mb-2">
-            Welcome to Addis Home
+            {t('welcome_to_addis_home')}
           </h1>
           <p className="text-sm md:text-base text-gray-700 dark:text-gray-400">
-            Discover premium properties in Ethiopia
+            {t('discover_premium_properties')}
           </p>
         </div>
       </motion.div>
@@ -59,7 +61,7 @@ function Home() {
               }`}
           >
             <GridIcon size={16} className="mr-2" />
-            <span>Cards</span>
+            <span>{t('cards')}</span>
           </button>
           <button
             onClick={() => setView('table')}
@@ -69,7 +71,7 @@ function Home() {
               }`}
           >
             <TableIcon size={16} className="mr-2" />
-            <span>Table</span>
+            <span>{t('table')}</span>
           </button>
         </div>
       </div>
@@ -85,7 +87,7 @@ function Home() {
               }`}
           >
             <GridIcon size={16} className="mr-1.5" />
-            <span className="font-medium">Cards</span>
+            <span className="font-medium">{t('cards')}</span>
           </button>
           <button
             onClick={() => setView('table')}
@@ -95,7 +97,7 @@ function Home() {
               }`}
           >
             <TableIcon size={16} className="mr-1.5" />
-            <span className="font-medium">Table</span>
+            <span className="font-medium">{t('table')}</span>
           </button>
         </div>
       </div>
@@ -118,7 +120,7 @@ function Home() {
       {loading && (
         <div className="text-center py-8">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">Loading properties...</p>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">{t('loading_properties')}</p>
         </div>
       )}
 
@@ -143,10 +145,10 @@ function Home() {
                 </svg>
               </div>
               <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-                {filtered ? 'No properties match your filters' : 'No properties available'}
+                {filtered ? t('no_properties_match_filters') : t('no_properties_available')}
               </h3>
               <p className="text-gray-500 dark:text-gray-400">
-                {filtered ? 'Try adjusting your search criteria' : 'Check back later for new listings'}
+                {filtered ? t('try_adjusting_search_criteria') : t('check_back_later')}
               </p>
             </div>
           )}

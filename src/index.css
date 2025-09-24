@@ -985,3 +985,243 @@ main.container {
     }
   }
 }
+
+/* RTL Support for Amharic Language */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .flex {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .space-x-3>*+* {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+[dir="rtl"] .space-x-4>*+* {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+[dir="rtl"] .space-x-2>*+* {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+[dir="rtl"] .mr-3 {
+  margin-right: 0;
+  margin-left: 0.75rem;
+}
+
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .justify-end {
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .justify-start {
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .items-start {
+  align-items: flex-end;
+}
+
+[dir="rtl"] .items-end {
+  align-items: flex-start;
+}
+
+/* RTL specific adjustments for property cards */
+[dir="rtl"] .grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .grid-cols-2>*:nth-child(odd) {
+  order: 2;
+}
+
+[dir="rtl"] .grid-cols-2>*:nth-child(even) {
+  order: 1;
+}
+
+/* RTL support for mobile view toggles */
+[dir="rtl"] .fixed.right-4 {
+  right: auto;
+  left: 1rem;
+}
+
+[dir="rtl"] .fixed.left-3 {
+  left: auto;
+  right: 0.75rem;
+}
+
+[dir="rtl"] .fixed.right-3 {
+  right: auto;
+  left: 0.75rem;
+}
+
+/* RTL support for header navigation */
+[dir="rtl"] .hidden.md\\:flex {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .flex.items-center.space-x-4 {
+  flex-direction: row-reverse;
+}
+
+/* RTL support for property card elements */
+[dir="rtl"] .absolute.top-3.left-3 {
+  left: auto;
+  right: 0.75rem;
+}
+
+[dir="rtl"] .absolute.top-3.right-3 {
+  right: auto;
+  left: 0.75rem;
+}
+
+[dir="rtl"] .absolute.bottom-3.left-3 {
+  left: auto;
+  right: 0.75rem;
+}
+
+[dir="rtl"] .absolute.bottom-3.right-3 {
+  right: auto;
+  left: 0.75rem;
+}
+
+/* RTL support for form elements */
+[dir="rtl"] input,
+[dir="rtl"] select,
+[dir="rtl"] textarea {
+  text-align: right;
+}
+
+[dir="rtl"] .flex.justify-between {
+  flex-direction: row-reverse;
+}
+
+/* RTL support for mobile menu */
+[dir="rtl"] .md\\:hidden .space-y-2 {
+  text-align: right;
+}
+
+[dir="rtl"] .md\\:hidden .flex.items-center.justify-between {
+  flex-direction: row-reverse;
+}
+
+/* RTL support for property details */
+[dir="rtl"] .flex.items-center.bg-gray-50 {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .flex.items-center.bg-gray-50 .mr-3 {
+  margin-right: 0;
+  margin-left: 0.75rem;
+}
+
+/* RTL support for buttons and links */
+[dir="rtl"] .flex.items-center.justify-center {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .flex.items-center.justify-center .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* RTL support for grid layouts */
+[dir="rtl"] .grid.grid-cols-2 {
+  direction: rtl;
+}
+
+[dir="rtl"] .grid.grid-cols-2>*:nth-child(1) {
+  order: 2;
+}
+
+[dir="rtl"] .grid.grid-cols-2>*:nth-child(2) {
+  order: 1;
+}
+
+/* RTL support for text alignment */
+[dir="rtl"] .text-center {
+  text-align: center;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* RTL support for margins and padding */
+[dir="rtl"] .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .ml-3 {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+[dir="rtl"] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+[dir="rtl"] .mr-3 {
+  margin-right: 0;
+  margin-left: 0.75rem;
+}
+
+[dir="rtl"] .pl-3 {
+  padding-left: 0;
+  padding-right: 0.75rem;
+}
+
+[dir="rtl"] .pr-3 {
+  padding-right: 0;
+  padding-left: 0.75rem;
+}
+
+/* RTL support for positioning */
+[dir="rtl"] .left-3 {
+  left: auto;
+  right: 0.75rem;
+}
+
+[dir="rtl"] .right-3 {
+  right: auto;
+  left: 0.75rem;
+}
+
+[dir="rtl"] .left-4 {
+  left: auto;
+  right: 1rem;
+}
+
+[dir="rtl"] .right-4 {
+  right: auto;
+  left: 1rem;
+}

@@ -1,21 +1,25 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Disclosure } from '@headlessui/react'
-import { Menu, X, Sun, Moon, Phone } from 'lucide-react'
+import { Menu, X, Sun, Moon, Phone, Globe } from 'lucide-react'
 import AuthContext from '../context/AuthContext'
 import ThemeContext from '../context/ThemeContext'
+import LanguageContext from '../context/LanguageContext'
 import logo from '../assets/logo.jpg'
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Submit Property', href: '/submit', role: 'broker' },
-  { name: 'My Listings', href: '/my-listings', role: 'broker' },
-  { name: 'Admin Panel', href: '/admin', role: 'admin' },
+  { name: 'home', href: '/' },
+  { name: 'submit_property', href: '/submit', role: 'broker' },
+  { name: 'my_listings', href: '/my-listings', role: 'broker' },
+  { name: 'admin_panel', href: '/admin', role: 'admin' },
+  { name: 'manage_users', href: '/admin/users', role: 'admin' },
+  { name: 'profile', href: '/profile' }
 ]
 
 function Header() {
   const { user, logout } = useContext(AuthContext)
   const { darkMode, setDarkMode } = useContext(ThemeContext)
+  const { language, setLanguage, t } = useContext(LanguageContext)
 
   return (
     <Disclosure as="nav" className="bg-theme-secondary shadow-lg border-b border-theme transition-colors duration-300">
@@ -45,7 +49,7 @@ function Header() {
                     to={item.href}
                     className="text-theme-primary hover:text-theme-accent px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
                   >
-                    {item.name}
+                    {t(item.name)}
                   </Link>
                 ))}
               </div>
@@ -58,7 +62,7 @@ function Header() {
                     onClick={logout}
                     className="text-theme-primary hover:text-theme-accent px-3 py-1 rounded-md text-sm font-medium transition-colors duration-200"
                   >
-                    Logout
+                    {t('logout')}
                   </button>
                 ) : (
                   <>
@@ -66,13 +70,13 @@ function Header() {
                       to="/signup"
                       className="bg-theme-accent text-gray-900 px-3 py-1 rounded-full text-sm font-bold hover:bg-yellow-500 transition-all duration-200 hover:scale-105"
                     >
-                      Register as Agent
+                      {t('signup')}
                     </Link>
                     <Link
                       to="/login"
                       className="bg-theme-accent text-gray-900 px-3 py-1 rounded-full text-sm font-bold hover:bg-yellow-500 transition-all duration-200 hover:scale-105"
                     >
-                      Login
+                      {t('login')}
                     </Link>
                     <a
                       href="tel:+251984863868"
@@ -82,6 +86,18 @@ function Header() {
                     </a>
                   </>
                 )}
+
+                {/* Language selector */}
+                <div className="relative">
+                  <select
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                    className="text-theme-primary hover:text-theme-accent bg-transparent border border-theme rounded-md px-2 py-1 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-theme-accent"
+                  >
+                    <option value="en">🇺🇸 English</option>
+                    <option value="am">🇪🇹 አማርኛ</option>
+                  </select>
+                </div>
 
                 {/* Dark mode toggle */}
                 <button
@@ -125,16 +141,29 @@ function Header() {
                       }
                     }}
                   >
-                    {item.name}
+                    {t(item.name)}
                   </Link>
                 ))}
               </div>
 
               {/* Mobile Auth Actions */}
               <div className="border-t border-theme pt-4">
+                {/* Language selector for mobile */}
+                <div className="flex items-center justify-between px-3 py-3 mb-3">
+                  <span className="text-theme-primary font-medium">{t('language')}</span>
+                  <select
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                    className="text-theme-primary bg-transparent border border-theme rounded-md px-2 py-1 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-theme-accent"
+                  >
+                    <option value="en">🇺🇸 English</option>
+                    <option value="am">🇪🇹 አማርኛ</option>
+                  </select>
+                </div>
+
                 {/* Dark mode toggle for mobile */}
                 <div className="flex items-center justify-between px-3 py-3 mb-3">
-                  <span className="text-theme-primary font-medium">Dark Mode</span>
+                  <span className="text-theme-primary font-medium">{t('theme')}</span>
                   <button
                     onClick={() => setDarkMode(!darkMode)}
                     className="text-theme-primary hover:text-theme-accent p-2 rounded-full hover:bg-theme-muted transition-all duration-200"
@@ -148,7 +177,7 @@ function Header() {
                     onClick={logout}
                     className="w-full text-left text-theme-primary hover:text-theme-accent px-3 py-3 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-theme-muted"
                   >
-                    Logout
+                    {t('logout')}
                   </button>
                 ) : (
                   <div className="space-y-3">
@@ -163,7 +192,7 @@ function Header() {
                         }
                       }}
                     >
-                      Register as Agent
+                      {t('signup')}
                     </Link>
                     <Link
                       to="/login"
@@ -176,7 +205,7 @@ function Header() {
                         }
                       }}
                     >
-                      Login
+                      {t('login')}
                     </Link>
                     <a
                       href="tel:+251984863868"

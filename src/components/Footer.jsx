@@ -1,7 +1,10 @@
 // src/components/Footer.jsx
 import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import { useContext } from 'react'
+import LanguageContext from '../context/LanguageContext'
 
 function Footer() {
+  const { t } = useContext(LanguageContext)
   return (
     <footer className="bg-theme-secondary border-t border-theme mt-16">
       <div className="container mx-auto px-4 py-12">
@@ -10,8 +13,7 @@ function Footer() {
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-theme-accent">ADDISHOME</h3>
             <p className="text-theme-secondary leading-relaxed">
-              Your trusted partner in finding the perfect property in Ethiopia.
-              We connect you with premium real estate opportunities.
+              {t('company_tagline')}
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
@@ -31,26 +33,26 @@ function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-theme-primary">Quick Links</h4>
+            <h4 className="text-lg font-semibold text-theme-primary">{t('quick_links')}</h4>
             <ul className="space-y-2">
               <li>
                 <a href="/" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
-                  Home
+                  {t('home')}
                 </a>
               </li>
               <li>
                 <a href="/submit" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
-                  Submit Property
+                  {t('submit_property')}
                 </a>
               </li>
               <li>
                 <a href="/my-listings" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
-                  My Listings
+                  {t('my_listings')}
                 </a>
               </li>
               <li>
                 <a href="/admin" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
-                  Admin Panel
+                  {t('admin_panel')}
                 </a>
               </li>
             </ul>
@@ -58,26 +60,26 @@ function Footer() {
 
           {/* Property Types */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-theme-primary">Property Types</h4>
+            <h4 className="text-lg font-semibold text-theme-primary">{t('property_types')}</h4>
             <ul className="space-y-2">
               <li>
                 <a href="#" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
-                  Apartments
+                  {t('apartment')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
-                  Houses
+                  {t('villa')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
-                  Land
+                  {t('building')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
-                  Commercial
+                  {t('commercial')}
                 </a>
               </li>
             </ul>
@@ -85,7 +87,7 @@ function Footer() {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-theme-primary">Contact Us</h4>
+            <h4 className="text-lg font-semibold text-theme-primary">{t('contact_us')}</h4>
             <div className="space-y-3">
               <div className="flex items-center">
                 <Phone size={16} className="text-theme-accent mr-3" />
@@ -119,17 +121,17 @@ function Footer() {
         <div className="border-t border-theme mt-8 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-theme-secondary text-sm">
-              &copy; {new Date().getFullYear()} ADDISHOME. All rights reserved.
+              &copy; {new Date().getFullYear()} ADDISHOME. {t('all_rights_reserved')}
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-theme-secondary hover:text-theme-accent text-sm transition-colors duration-200">
-                Privacy Policy
+                {t('privacy_policy')}
               </a>
               <a href="#" className="text-theme-secondary hover:text-theme-accent text-sm transition-colors duration-200">
-                Terms of Service
+                {t('terms_of_service')}
               </a>
               <a href="#" className="text-theme-secondary hover:text-theme-accent text-sm transition-colors duration-200">
-                Cookie Policy
+                {t('cookie_policy')}
               </a>
             </div>
           </div>
