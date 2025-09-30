@@ -137,17 +137,38 @@ function AdminPanel() {
 
       {showActions && (
         <div className="flex flex-wrap gap-2 mt-3">
+          {prop.status === 'pending' && (
+            <>
+              <button
+                onClick={() => approve(prop.pid)}
+                className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
+              >
+                Approve
+              </button>
+              <button
+                onClick={() => {
+                  const reason = prompt('Please enter the reason for rejection:');
+                  if (reason) reject(prop.pid, reason);
+                }}
+                className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+              >
+                Reject
+              </button>
+            </>
+          )}
+          {prop.status === 'approved' && (
+            <button
+              onClick={() => markSold(prop.pid)}
+              className="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded"
+            >
+              Mark Sold
+            </button>
+          )}
           <button
-            onClick={() => reject(prop.pid)}
-            className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+            onClick={() => removeProperty(prop.pid)}
+            className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded"
           >
-            Reject
-          </button>
-          <button
-            onClick={() => markSold(prop.pid)}
-            className="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded"
-          >
-            Mark Sold
+            Delete
           </button>
         </div>
       )}
