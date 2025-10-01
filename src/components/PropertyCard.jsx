@@ -120,10 +120,10 @@ function PropertyCard({ property }) {
 
         <Link
           to={`/properties/${property.pid}`}
-          className="block w-full bg-gradient-to-r  from-indigo-500 via-purple-500 to-pink-500 text-white py-3 rounded-xl font-semibold text-center hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group/btn"
+          className="block w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-3 rounded-xl font-semibold text-center hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group/btn"
         >
-          <span className="relative z-10 ">{t('view_details')}</span>
-          <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 "></div>
+          <span className="relative z-10 text-white">{t('view_details')}</span>
+          <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
         </Link>
       </div>
     </motion.div>

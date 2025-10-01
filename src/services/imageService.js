@@ -45,7 +45,7 @@ export const imageService = {
     return processedUrls
   },
 
-  // Get a safe image URL for display
+  // Get a safe image URL for display (supports http(s), data:, blob:, and /uploads/*)
   getSafeImageUrl: (url, fallback = 'https://via.placeholder.com/400x300?text=No+Image') => {
     if (!url) return fallback
 
@@ -54,8 +54,13 @@ export const imageService = {
       return `https://via.placeholder.com/400x300/4F46E5/FFFFFF?text=Property+Image`
     }
 
-    // If it's a valid URL, return it
-    if (url.startsWith('http')) {
+    // If it's a valid absolute URL, return it
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url
+    }
+
+    // Support data URLs and blob URLs produced by file readers or object URLs
+    if (url.startsWith('data:image/') || url.startsWith('blob:')) {
       return url
     }
 
@@ -65,25 +70,24 @@ export const imageService = {
       return `${baseUrl}${url}`
     }
 
-    // If it looks like a relative path, try to make it absolute
-    if (url.startsWith('/') || url.startsWith('./')) {
-      return url
-    }
+    // If it looks like a relative path, return as is (browser will resolve)
+    if (url.startsWith('/') || url.startsWith('./')) return url
 
     // Otherwise, return fallback
     return fallback
   },
 
-  // Validate image URL
+  // Validate image URL (broad support of formats)
   isValidImageUrl: (url) => {
     if (!url) return false
     if (imageService.isTelegramFileId(url)) return true
-    return url.startsWith('http') && (
-      url.includes('.jpg') ||
-      url.includes('.jpeg') ||
-      url.includes('.png') ||
-      url.includes('.gif') ||
-      url.includes('.webp')
+    const lower = url.toLowerCase()
+    return (
+      lower.startsWith('http://') || lower.startsWith('https://') ||
+      lower.startsWith('data:image/') || lower.startsWith('blob:') ||
+      lower.startsWith('/uploads/') ||
+      lower.endsWith('.jpg') || lower.endsWith('.jpeg') ||
+      lower.endsWith('.png') || lower.endsWith('.gif') || lower.endsWith('.webp')
     )
   }
 }

@@ -4,10 +4,14 @@ import { AuthProvider } from './context/AuthContext'
 import { LanguageProvider } from './context/LanguageContext'
 import { ThemeProvider } from './context/ThemeContext'
 import Home from './pages/Home'
+import Cars from './pages/Cars'
+import Properties from './pages/Properties'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import PropertyDetail from './pages/PropertyDetail'
+import CarDetail from './pages/CarDetail'
 import SubmitProperty from './pages/SubmitProperty'
+import SubmitCar from './pages/SubmitCar'
 import MyListings from './pages/MyListings'
 import AdminPanel from './pages/AdminPanel'
 import AdminUsers from './pages/AdminUsers'
@@ -32,10 +36,18 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
+                  <Route path="/cars" element={<Cars />} />
+                  <Route path="/properties" element={<Properties />} />
                   <Route path="/properties/:id" element={<PropertyDetail />} />
+                  <Route path="/cars/:id" element={<CarDetail />} />
                   <Route path="/submit" element={
                     <PrivateRoute roles={['broker']}>
                       <SubmitProperty />
+                    </PrivateRoute>
+                  } />
+                  <Route path="/submit-car" element={
+                    <PrivateRoute roles={['broker']}>
+                      <SubmitCar />
                     </PrivateRoute>
                   } />
                   <Route path="/my-listings" element={

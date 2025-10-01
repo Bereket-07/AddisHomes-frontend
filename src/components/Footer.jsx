@@ -41,6 +41,16 @@ function Footer() {
                 </a>
               </li>
               <li>
+                <a href="/properties" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
+                  {t('homes')}
+                </a>
+              </li>
+              <li>
+                <a href="/cars" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
+                  {t('cars')}
+                </a>
+              </li>
+              <li>
                 <a href="/submit" className="text-theme-secondary hover:text-theme-accent transition-colors duration-200">
                   {t('submit_property')}
                 </a>

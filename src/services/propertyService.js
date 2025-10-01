@@ -88,3 +88,40 @@ export const propertyService = {
 }
 
 export default propertyService
+
+// --- Car Service ---
+export const carService = {
+    async getCars(filters = {}) {
+        try {
+            const cleanFilters = Object.fromEntries(
+                Object.entries(filters).filter(([_, value]) => value !== '' && value !== null && value !== undefined)
+            )
+            const params = new URLSearchParams(cleanFilters).toString()
+            const response = await api.get(`/cars?${params}`)
+            return response.data || []
+        } catch (error) {
+            console.error('Error fetching cars:', error)
+            throw error
+        }
+    },
+
+    async getCarById(carId) {
+        try {
+            const response = await api.get(`/cars/${carId}`)
+            return response.data
+        } catch (error) {
+            console.error('Error fetching car:', error)
+            throw error
+        }
+    },
+
+    async submitCar(carData) {
+        try {
+            const response = await api.post('/cars', carData)
+            return response.data
+        } catch (error) {
+            console.error('Error submitting car:', error)
+            throw error
+        }
+    }
+}

@@ -111,7 +111,12 @@ const translations = {
         'company_tagline': 'Your trusted partner in finding the perfect property in Ethiopia. We connect you with premium real estate opportunities.',
 
         // Common
-        'search': 'Search',
+        'search': 'Search term',
+        'cars': 'Cars',
+        'submit_car': 'Submit Car',
+        'choose_category': 'What are you looking for?',
+        'choose_home': 'Home',
+        'choose_car': 'Car',
         'submit': 'Submit',
         'cancel': 'Cancel',
         'save': 'Save',
@@ -257,7 +262,12 @@ const translations = {
         'company_tagline': 'በኢትዮጵያ ውስጥ ተስማሚ ንብረት ለማግኘት የሚረዳዎ አማካሪ። ከፍተኛ የሆኑ የንብረት እድሎችን እናገናኛችኋለን።',
 
         // Common
-        'search': 'ፍለጋ',
+        'search': 'የፍለጋ ቃል',
+        'cars': 'መኪናዎች',
+        'submit_car': 'መኪና አስገባ',
+        'choose_category': 'ምን ትፈልጋለህ?',
+        'choose_home': 'ቤት',
+        'choose_car': 'መኪና',
         'submit': 'አስገባ',
         'cancel': 'ሰርዝ',
         'save': 'አስቀምጥ',

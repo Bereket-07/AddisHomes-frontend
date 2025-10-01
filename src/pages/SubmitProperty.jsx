@@ -190,7 +190,7 @@ function SubmitProperty() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Property Type */}
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                     {t('property_type')} *
                   </label>
                   <select
@@ -211,7 +211,7 @@ function SubmitProperty() {
 
                 {/* Region */}
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                     {t('region')} *
                   </label>
                   <select
@@ -232,7 +232,7 @@ function SubmitProperty() {
 
                 {/* City */}
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                     {t('city') || 'City'} *
                   </label>
                   <input
@@ -249,7 +249,7 @@ function SubmitProperty() {
 
                 {/* Site */}
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                     {t('site_area')}
                   </label>
                   <select
@@ -270,7 +270,7 @@ function SubmitProperty() {
 
                 {/* Bedrooms */}
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                     {t('bedrooms_count')} *
                   </label>
                   <input
@@ -289,7 +289,7 @@ function SubmitProperty() {
 
                 {/* Bathrooms */}
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                     {t('bathrooms_count')} *
                   </label>
                   <input
@@ -308,7 +308,7 @@ function SubmitProperty() {
 
                 {/* Size */}
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                     {t('size')} (sqm) *
                   </label>
                   <input
@@ -327,7 +327,7 @@ function SubmitProperty() {
 
                 {/* Price */}
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                     {t('price_range') || 'Price (ETB)'} *
                   </label>
                   <input
@@ -353,7 +353,7 @@ function SubmitProperty() {
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                         {t('condo_scheme')}
                       </label>
                       <select
@@ -396,7 +396,7 @@ function SubmitProperty() {
                 {showAdvanced && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                         {t('furnishing_status')}
                       </label>
                       <select
@@ -420,7 +420,7 @@ function SubmitProperty() {
 
               {/* Description */}
               <div>
-                <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                   {t('description') || 'Description'} *
                 </label>
                 <textarea
@@ -439,7 +439,7 @@ function SubmitProperty() {
 
               {/* Images */}
               <div>
-                <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
                   {t('upload_images_min3') || 'Upload Images (at least 3) *'}
                 </label>
                 <input

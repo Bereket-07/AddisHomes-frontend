@@ -59,7 +59,7 @@ function PropertyDetail() {
       <div className="container mx-auto px-4">
         {/* Back button */}
         <Link
-          to="/"
+          to="/properties"
           className="inline-flex items-center text-theme-accent hover:text-yellow-500 mb-6 transition-colors duration-200"
         >
           <ArrowLeft size={20} className="mr-2" />

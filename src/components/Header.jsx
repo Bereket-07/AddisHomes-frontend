@@ -9,7 +9,10 @@ import logo from '../assets/logo.jpg'
 
 const navigation = [
   { name: 'home', href: '/' },
+  { name: 'homes', href: '/properties' },
+  { name: 'cars', href: '/cars' },
   { name: 'submit_property', href: '/submit', role: 'broker' },
+  { name: 'submit_car', href: '/submit-car', role: 'broker' },
   { name: 'my_listings', href: '/my-listings', role: 'broker' },
   { name: 'admin_panel', href: '/admin', role: 'admin' },
   { name: 'manage_users', href: '/admin/users', role: 'admin' },
@@ -42,12 +45,12 @@ function Header() {
               </div>
 
               {/* Desktop nav */}
-              <div className="hidden md:flex items-center space-x-4">
+              <div className="hidden md:flex items-center space-x-6">
                 {navigation.filter(item => !item.role || (user && user.roles.includes(item.role))).map((item) => (
                   <Link
                     key={item.name}
                     to={item.href}
-                    className="text-theme-primary hover:text-theme-accent px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                    className="text-theme-primary hover:text-theme-accent px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 whitespace-nowrap"
                   >
                     {t(item.name)}
                   </Link>
@@ -92,7 +95,7 @@ function Header() {
                   <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value)}
-                    className="text-theme-primary hover:text-theme-accent bg-transparent border border-theme rounded-md px-2 py-1 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-theme-accent"
+                    className="text-theme-primary hover:text-theme-accent bg-transparent border border-theme rounded-md px-2 py-1 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-theme-accent whitespace-nowrap"
                   >
                     <option value="en">🇺🇸 English</option>
                     <option value="am">🇪🇹 አማርኛ</option>
@@ -124,7 +127,7 @@ function Header() {
           </div>
 
           {/* Mobile nav panel */}
-          <Disclosure.Panel className="md:hidden bg-theme-primary border-t border-theme">
+          <Disclosure.Panel className="md:hidden bg-theme-primary border-top border-theme">
             <div className="px-4 pt-4 pb-6 space-y-4">
               {/* Navigation Links */}
               <div className="space-y-2">
@@ -132,7 +135,7 @@ function Header() {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className="block text-theme-primary hover:text-theme-accent px-3 py-3 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-theme-muted"
+                    className="block text-theme-primary hover:text-theme-accent px-3 py-3 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-theme-muted whitespace-nowrap"
                     onClick={() => {
                       // Close mobile menu when link is clicked
                       if (typeof window !== 'undefined') {

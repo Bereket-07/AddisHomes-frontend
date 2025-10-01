@@ -1,12 +1,17 @@
 // src/pages/AdminPanel.jsx
 import { useState, useEffect } from 'react'
+import { carService } from '../services/propertyService'
 import PropertyImage from '../components/PropertyImage'
 import api from '../api'
 
 function AdminPanel() {
-  const [tab, setTab] = useState('pending') // pending | all | create | analytics
+  const [tab, setTab] = useState('pending') // pending | all | analytics
+  const [resource, setResource] = useState('house') // house | car
   const [pending, setPending] = useState([])
   const [allProperties, setAllProperties] = useState([])
+  const [cars, setCars] = useState([])
+  const [pendingCars, setPendingCars] = useState([])
+  const [allCars, setAllCars] = useState([])
   const [analytics, setAnalytics] = useState({})
   const [newProperty, setNewProperty] = useState({
     property_type: '',
@@ -19,6 +24,16 @@ function AdminPanel() {
     broker_phone: '',
   })
   const token = localStorage.getItem('token')
+
+  const getCounts = (data = {}) => {
+    const pending = Number(data.pending || 0)
+    const approved = Number(data.approved || 0)
+    const rejected = Number(data.rejected || 0)
+    const sold = Number(data.sold || 0)
+    const total = pending + approved + rejected + sold
+    const notSold = Math.max(total - sold, 0)
+    return { total, pending, approved, rejected, sold, notSold }
+  }
 
   // ------------------- Fetch Data -------------------
   const fetchPending = async () => {
@@ -33,6 +48,19 @@ function AdminPanel() {
     setAllProperties(res.data)
   }
 
+  const fetchPendingCars = async () => {
+    const headers = { Authorization: `Bearer ${token}` }
+    const res = await api.get('/admin/cars', { headers })
+    const pendingCars = res.data.filter(car => car.status === 'pending')
+    setPendingCars(pendingCars)
+  }
+
+  const fetchAllCars = async () => {
+    const headers = { Authorization: `Bearer ${token}` }
+    const res = await api.get('/admin/cars', { headers })
+    setAllCars(res.data)
+  }
+
   const fetchAnalytics = async () => {
     const headers = { Authorization: `Bearer ${token}` }
     const res = await api.get('/admin/analytics', { headers })
@@ -43,9 +71,18 @@ function AdminPanel() {
     if (token) {
       fetchPending()
       fetchAllProperties()
+      fetchPendingCars()
+      fetchAllCars()
       fetchAnalytics()
     }
   }, [token])
+
+  useEffect(() => {
+    if (resource === 'car') {
+      fetchPendingCars()
+      fetchAllCars()
+    }
+  }, [resource])
 
   // ------------------- Admin Actions -------------------
   const approve = async (id) => {
@@ -74,20 +111,34 @@ function AdminPanel() {
     fetchAllProperties()
   }
 
-  const createProperty = async () => {
-    await api.post('/admin/properties', newProperty, { headers: { Authorization: `Bearer ${token}` } })
-    setNewProperty({
-      property_type: '',
-      price_etb: 0,
-      bedrooms: 1,
-      bathrooms: 1,
-      description: '',
-      image_urls: [],
-      broker_name: '',
-      broker_phone: '',
-    })
-    fetchAllProperties()
+  // Car actions
+  const approveCar = async (id) => {
+    await api.post(`/admin/cars/approve/${id}`, {}, { headers: { Authorization: `Bearer ${token}` } })
+    fetchPendingCars()
+    fetchAllCars()
   }
+
+  const rejectCar = async (id) => {
+    const reason = prompt('Reason for rejection?')
+    if (!reason) return
+    await api.post(`/admin/cars/reject/${id}`, { reason }, { headers: { Authorization: `Bearer ${token}` } })
+    fetchPendingCars()
+    fetchAllCars()
+  }
+
+  const removeCar = async (id) => {
+    await api.delete(`/admin/cars/${id}`, { headers: { Authorization: `Bearer ${token}` } })
+    fetchPendingCars()
+    fetchAllCars()
+  }
+
+  const markCarSold = async (id) => {
+    await api.post(`/admin/cars/mark-sold/${id}`, {}, { headers: { Authorization: `Bearer ${token}` } })
+    fetchPendingCars()
+    fetchAllCars()
+  }
+
+  // removed create property per requirements
 
   // ------------------- Render Property Card -------------------
   // Updated PropertyCard component
@@ -179,67 +230,126 @@ function AdminPanel() {
   const renderTabContent = () => {
     switch (tab) {
       case 'pending':
-        return pending.length ? (
-          pending.map((prop) => <PropertyCard key={prop.pid} prop={prop} />)
+        if (resource === 'house') {
+          return pending.length ? (
+            pending.map((prop) => <PropertyCard key={prop.pid} prop={prop} />)
+          ) : (
+            <p className="text-gray-700 dark:text-gray-300">No pending properties.</p>
+          )
+        }
+        // cars pending
+        return pendingCars.length ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {pendingCars.map(car => (
+              <div key={car.cid} className="p-4 rounded-lg shadow border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div className="flex items-start gap-4 mb-3">
+                  <div className="w-24 h-20 rounded-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                    {car.images && car.images[0] ? (
+                      <img src={car.images[0]} alt="car" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold text-gray-900 dark:text-white">{car.manufacturer} {car.model_name} {car.model_year ? `(${car.model_year})` : ''}</p>
+                    <p className="text-blue-700 dark:text-blue-300 font-bold">{Number(car.price_etb).toLocaleString()} ETB</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">{car.car_type} • {car.motor_type || car.engine}</p>
+                  </div>
+                </div>
+                {/* Broker info for Cars */}
+                <div className="mt-2 border-t border-gray-200 dark:border-gray-700 pt-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Broker: <span className="text-gray-900 dark:text-gray-100 font-medium">{car.broker_name || 'N/A'}</span></p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Phone: <span className="text-gray-900 dark:text-gray-100 font-medium">{car.broker_phone || 'N/A'}</span></p>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <button onClick={() => approveCar(car.cid)} className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">Approve</button>
+                  <button onClick={() => rejectCar(car.cid)} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">Reject</button>
+                  <button onClick={() => removeCar(car.cid)} className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded">Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
-          // Updated text color for empty state
-          <p className="text-gray-700 dark:text-gray-300">No pending properties.</p>
+          <p className="text-gray-700 dark:text-gray-300">No pending cars.</p>
         )
 
       case 'all':
-        return allProperties.length ? (
-          allProperties.map((prop) => <PropertyCard key={prop.pid} prop={prop} />)
-        ) : (
-          // Updated text color for empty state
-          <p className="text-gray-700 dark:text-gray-300">No properties available.</p>
-        )
-
-      case 'create':
-        return (
-          // Updated main div: bg-navy uses --primary, dark:bg-gray-800 for explicit dark bg
-          <div className="p-6 rounded-lg shadow border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700 max-w-md">
-            {/* Updated heading text color */}
-            <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gold-400">
-              Create New Property
-            </h3>
-            {Object.keys(newProperty).map((key) => (
-              <div key={key} className="mb-3">
-                {/* Updated label text color */}
-                <label className="block mb-1 font-medium text-gray-700 dark:text-gray-300">
-                  {key}
-                </label>
-                <input
-                  type={typeof newProperty[key] === 'number' ? 'number' : 'text'}
-                  value={newProperty[key]}
-                  onChange={(e) =>
-                    setNewProperty((prev) => ({ ...prev, [key]: e.target.value }))
-                  }
-                  // Updated input background for dark mode
-                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                />
+        if (resource === 'house') {
+          return allProperties.length ? (
+            allProperties.map((prop) => <PropertyCard key={prop.pid} prop={prop} />)
+          ) : (
+            <p className="text-gray-700 dark:text-gray-300">No properties available.</p>
+          )
+        }
+        return allCars.length ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {allCars.map(car => (
+              <div key={car.cid} className="p-4 rounded-lg shadow border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div className="flex items-start gap-4 mb-3">
+                  <div className="w-24 h-20 rounded-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                    {car.images && car.images[0] ? (
+                      <img src={car.images[0]} alt="car" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold text-gray-900 dark:text-white">{car.manufacturer} {car.model_name} {car.model_year ? `(${car.model_year})` : ''}</p>
+                    <p className="text-blue-700 dark:text-blue-300 font-bold">{Number(car.price_etb).toLocaleString()} ETB</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">{car.car_type} • {car.motor_type || car.engine}</p>
+                  </div>
+                </div>
+                {/* Broker info for Cars */}
+                <div className="mt-2 border-t border-gray-200 dark:border-gray-700 pt-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Broker: <span className="text-gray-900 dark:text-gray-100 font-medium">{car.broker_name || 'N/A'}</span></p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Phone: <span className="text-gray-900 dark:text-gray-100 font-medium">{car.broker_phone || 'N/A'}</span></p>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <button onClick={() => markCarSold(car.cid)} className="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded">Mark Sold</button>
+                  <button onClick={() => removeCar(car.cid)} className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded">Delete</button>
+                </div>
               </div>
             ))}
-            <button
-              onClick={createProperty}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full mt-3"
-            >
-              Create Property
-            </button>
           </div>
+        ) : (
+          <p className="text-gray-700 dark:text-gray-300">No cars available.</p>
         )
 
+      // create tab removed
+
       case 'analytics':
+        const propCounts = getCounts(analytics.properties || {})
+        const carCounts = getCounts(analytics.cars || {})
+        const Card = ({ label, value }) => (
+          <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 text-center shadow">
+            <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">{label}</div>
+            <div className="text-2xl font-bold text-blue-700 dark:text-gold-400">{value}</div>
+          </div>
+        )
         return (
-          // Updated main div: bg-navy uses --primary, dark:bg-gray-800 for explicit dark bg
-          <div className="p-6 rounded-lg shadow border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700 max-w-md">
-            {/* Updated heading text color */}
-            <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gold-400">
-              Analytics
-            </h3>
-            {/* Updated pre background and text colors */}
-            <pre className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-4 rounded-lg overflow-x-auto text-sm">
-              {JSON.stringify(analytics, null, 2)}
-            </pre>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <h3 className="text-xl font-semibold mb-3 text-white-900 dark:text-gold-400">Property Analytics</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                <Card label="Total" value={propCounts.total} />
+                <Card label="Pending" value={propCounts.pending} />
+                <Card label="Approved" value={propCounts.approved} />
+                <Card label="Rejected" value={propCounts.rejected} />
+                <Card label="Sold" value={propCounts.sold} />
+                <Card label="Not Sold" value={propCounts.notSold} />
+              </div>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-3 text-white-900 dark:text-gold-400">Car Analytics</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                <Card label="Total" value={carCounts.total} />
+                <Card label="Pending" value={carCounts.pending} />
+                <Card label="Approved" value={carCounts.approved} />
+                <Card label="Rejected" value={carCounts.rejected} />
+                <Card label="Sold" value={carCounts.sold} />
+                <Card label="Not Sold" value={carCounts.notSold} />
+              </div>
+            </div>
           </div>
         )
 
@@ -257,9 +367,18 @@ function AdminPanel() {
         Admin Panel
       </h1>
 
+      {/* Resource selector */}
+      <div className="flex items-center gap-3 mb-4">
+        <span className="text-sm">Manage:</span>
+        <select value={resource} onChange={(e) => setResource(e.target.value)} className="border rounded p-2">
+          <option value="house">Houses</option>
+          <option value="car">Cars</option>
+        </select>
+      </div>
+
       {/* Tabs */}
       <div className="flex gap-4 mb-6">
-        {['pending', 'all', 'create', 'analytics'].map((t) => (
+        {['pending', 'all', 'analytics'].map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -275,6 +394,43 @@ function AdminPanel() {
       </div>
 
       {renderTabContent()}
+
+      {resource === 'car' && (
+        <div className="mt-6">
+          <h2 className="text-xl font-semibold mb-3">Cars</h2>
+          {cars.length === 0 ? (
+            <p className="text-gray-700 dark:text-gray-300">No cars yet.</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {cars.map(car => (
+                <div key={car.cid} className="p-4 rounded-lg shadow border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700">
+                  <div className="flex items-start gap-4 mb-3">
+                    <div className="w-24 h-20 rounded-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                      {car.images && car.images[0] ? (
+                        <img src={car.images[0]} alt="car" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-900 dark:text-white">{car.manufacturer} {car.model_name} {car.model_year ? `(${car.model_year})` : ''}</p>
+                      <p className="text-blue-700 dark:text-blue-300 font-bold">{Number(car.price_etb).toLocaleString()} ETB</p>
+                      <p className="text-sm text-gray-700 dark:text-gray-300">{car.car_type} • {car.motor_type || car.engine}</p>
+                    </div>
+                  </div>
+                  {/* Car moderation actions */}
+                  {car.status === 'pending' && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <button onClick={async () => { await api.post(`/admin/cars/approve/${car.cid}`, {}, { headers: { Authorization: `Bearer ${token}` } }); setCars(await carService.getCars()) }} className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">Approve</button>
+                      <button onClick={async () => { await api.post(`/admin/cars/reject/${car.cid}`, {}, { headers: { Authorization: `Bearer ${token}` } }); setCars(await carService.getCars()) }} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">Reject</button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
