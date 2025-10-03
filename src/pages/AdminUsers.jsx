@@ -38,7 +38,7 @@ function AdminUsers() {
     )
 
     return (
-        <div className="max-w-5xl mx-auto p-6">
+        <div className="max-w-5xl mx-auto p-6 bg-gray-50 dark:bg-transparent rounded-xl">
             <h1 className="text-2xl font-bold mb-4">{t('manage_users')}</h1>
 
             <div className="mb-4">
@@ -50,9 +50,9 @@ function AdminUsers() {
                 />
             </div>
 
-            <div className="overflow-x-auto bg-white border border-gray-200 rounded-lg">
-                <table className="min-w-full text-sm">
-                    <thead className="bg-gray-100">
+            <div className="overflow-x-auto bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+                <table className="min-w-full text-sm text-gray-900 dark:text-gray-100">
+                    <thead className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
                         <tr>
                             <th className="text-left px-4 py-2">ID</th>
                             <th className="text-left px-4 py-2">{t('display_name')}</th>
@@ -62,19 +62,21 @@ function AdminUsers() {
                             <th className="px-4 py-2" />
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                         {filtered.map(u => (
-                            <tr key={u.uid} className="border-t">
-                                <td className="px-4 py-2">{u.uid}</td>
-                                <td className="px-4 py-2">{u.display_name || '-'}</td>
-                                <td className="px-4 py-2">{u.phone_number}</td>
-                                <td className="px-4 py-2">{(u.roles || []).join(', ') || '-'}</td>
-                                <td className="px-4 py-2">{u.active ? t('active') : t('inactive')}</td>
-                                <td className="px-4 py-2 space-x-2">
-                                    <button className="px-2 py-1 rounded bg-blue-600 text-white" onClick={() => setRole(u.uid, 'admin', true)}>{t('set_admin')}</button>
-                                    <button className="px-2 py-1 rounded bg-gray-600 text-white" onClick={() => setRole(u.uid, 'admin', false)}>{t('remove_admin')}</button>
-                                    <button className="px-2 py-1 rounded bg-yellow-600 text-white" onClick={() => setActive(u.uid, !u.active)}>{u.active ? t('deactivate_user') : t('activate_user')}</button>
-                                    <button className="px-2 py-1 rounded bg-red-600 text-white" onClick={() => remove(u.uid)}>{t('delete_user')}</button>
+                            <tr key={u.uid} className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/80">
+                                <td className="px-4 py-2 align-top">{u.uid}</td>
+                                <td className="px-4 py-2 align-top">{u.display_name || '-'}</td>
+                                <td className="px-4 py-2 align-top">{u.phone_number}</td>
+                                <td className="px-4 py-2 align-top">{(u.roles || []).join(', ') || '-'}</td>
+                                <td className="px-4 py-2 align-top">
+                                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${u.active ? 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300' : 'bg-gray-100 text-gray-700 dark:bg-gray-800/60 dark:text-gray-300'}`}>{u.active ? t('active') : t('inactive')}</span>
+                                </td>
+                                <td className="px-4 py-2 align-top space-x-2 whitespace-nowrap">
+                                    <button className="px-2 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white" onClick={() => setRole(u.uid, 'admin', true)}>{t('set_admin')}</button>
+                                    <button className="px-2 py-1 rounded bg-gray-600 hover:bg-gray-700 text-white" onClick={() => setRole(u.uid, 'admin', false)}>{t('remove_admin')}</button>
+                                    <button className="px-2 py-1 rounded bg-yellow-600 hover:bg-yellow-700 text-white" onClick={() => setActive(u.uid, !u.active)}>{u.active ? t('deactivate_user') : t('activate_user')}</button>
+                                    <button className="px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white" onClick={() => remove(u.uid)}>{t('delete_user')}</button>
                                 </td>
                             </tr>
                         ))}

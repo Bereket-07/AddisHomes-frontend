@@ -352,7 +352,7 @@ function AdminPanel() {
             </div>
           </div>
         )
-
+// like i mean the house property that is submitted from website and it is approved by admin so it is threre in the website when u browse there is it but when i browse in the telegram the one that is there in the website is not there only the one that is upploaded on the telegam only rendered
       default:
         return null
     }
