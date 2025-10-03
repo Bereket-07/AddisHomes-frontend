@@ -111,7 +111,7 @@ const translations = {
         'company_tagline': 'Your trusted partner in finding the perfect property in Ethiopia. We connect you with premium real estate opportunities.',
 
         // Common
-        'search': 'Search term',
+        'search': 'Search',
         'cars': 'Cars',
         'submit_car': 'Submit Car',
         'choose_category': 'What are you looking for?',
@@ -144,7 +144,6 @@ const translations = {
         'update_success': 'Updated successfully',
         'update_failed': 'Update failed',
         'role': 'Role',
-        'status': 'Status',
         'active': 'Active',
         'inactive': 'Inactive',
         'set_admin': 'Set Admin',
@@ -152,7 +151,6 @@ const translations = {
         'deactivate_user': 'Deactivate',
         'activate_user': 'Activate',
         'delete_user': 'Delete User',
-        'search': 'Search',
         'display_name': 'Display Name (Optional)',
         'phone_number': 'Phone Number'
     },
@@ -262,7 +260,7 @@ const translations = {
         'company_tagline': 'በኢትዮጵያ ውስጥ ተስማሚ ንብረት ለማግኘት የሚረዳዎ አማካሪ። ከፍተኛ የሆኑ የንብረት እድሎችን እናገናኛችኋለን።',
 
         // Common
-        'search': 'የፍለጋ ቃል',
+        'search': 'ፍለጋ',
         'cars': 'መኪናዎች',
         'submit_car': 'መኪና አስገባ',
         'choose_category': 'ምን ትፈልጋለህ?',
@@ -295,7 +293,6 @@ const translations = {
         'update_success': 'በስኬት ተዘምኗል',
         'update_failed': 'ማዘመን አልተሳካም',
         'role': 'ሚና',
-        'status': 'ሁኔታ',
         'active': 'ንቁ',
         'inactive': 'እንቅስቃሴ የለሽ',
         'set_admin': 'አስተዳዳሪ አድርግ',
@@ -303,7 +300,6 @@ const translations = {
         'deactivate_user': 'ማቦዘን',
         'activate_user': 'አንቃ',
         'delete_user': 'ተጠቃሚን ሰርዝ',
-        'search': 'ፍለጋ',
         'display_name': 'የሚታይ ስም (አማራጭ)',
         'phone_number': 'ስልክ ቁጥር'
     }

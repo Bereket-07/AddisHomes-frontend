@@ -35,11 +35,11 @@ function Header() {
                 <Link to="/" className="flex items-center space-x-3 hover:scale-105 transition-transform">
                   <img
                     src={logo}
-                    alt="ADDISHOME Logo"
+                    alt="ADDISHOMES Logo"
                     className="h-10 w-10 rounded-full object-cover shadow-md"
                   />
                   <span className="text-theme-accent font-extrabold text-2xl tracking-wide">
-                    ADDISHOME
+                    ADDISHOMES
                   </span>
                 </Link>
               </div>

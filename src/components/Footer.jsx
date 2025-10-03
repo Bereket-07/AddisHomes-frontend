@@ -11,7 +11,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-theme-accent">ADDISHOME</h3>
+            <h3 className="text-2xl font-bold text-theme-accent">ADDISHOMES</h3>
             <p className="text-theme-secondary leading-relaxed">
               {t('company_tagline')}
             </p>
@@ -131,7 +131,7 @@ function Footer() {
         <div className="border-t border-theme mt-8 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-theme-secondary text-sm">
-              &copy; {new Date().getFullYear()} ADDISHOME. {t('all_rights_reserved')}
+              &copy; {new Date().getFullYear()} ADDISHOMES. {t('all_rights_reserved')}
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-theme-secondary hover:text-theme-accent text-sm transition-colors duration-200">
